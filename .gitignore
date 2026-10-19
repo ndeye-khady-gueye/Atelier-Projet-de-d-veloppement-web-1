@@ -1,0 +1,14 @@
+# Dépendances du Backend (PHP/Slim)
+/back/vendor/
+
+# Fichiers d'environnement et secrets (Docker, BDD)
+.env
+.env.*
+
+# Dépendances du Frontend (si B utilise npm)
+/front/node_modules/
+/front/.sass-cache/
+
+# Fichiers systèmes
+.DS_Store
+Thumbs.db
