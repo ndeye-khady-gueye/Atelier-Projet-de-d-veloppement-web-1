@@ -5,3 +5,4 @@ front/node_modules/
 .env
 .idea/
 .vscode/
+back/.phpunit.result.cache
