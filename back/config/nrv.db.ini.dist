@@ -1,0 +1,7 @@
+; Copier ce fichier en nrv.db.ini (non versionné) et adapter les valeurs.
+driver = pgsql
+host = nrv.db
+port = 5432
+database = nrv
+username = nrv
+password = changeme

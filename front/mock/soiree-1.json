@@ -1,0 +1,49 @@
+{
+  "type": "resource",
+  "soiree": {
+    "id": 1,
+    "nom": "Blues Night",
+    "thematique": "soirée blues",
+    "date": "2027-06-12",
+    "horaire": "20:00",
+    "lieu": {
+      "nom": "L'Autre Canal",
+      "adresse": "45 boulevard d'Austrasie, 54000 Nancy"
+    },
+    "tarifs": {
+      "normal": 30,
+      "reduit": 20,
+      "pass_normal": 87.3,
+      "pass_reduit": 58.2
+    },
+    "places_restantes": 80,
+    "complet": false,
+    "spectacles": [
+      {
+        "id": 1,
+        "titre": "Delta Roots",
+        "artistes": ["Lily Moon", "Sam Waters"],
+        "description": "Blues du Mississippi revisité.",
+        "style": "blues rock",
+        "video": "https://www.youtube.com/watch?v=exemple1",
+        "horaire": "20:30",
+        "images": ["img/spectacles/1.jpg", "img/spectacles/1b.jpg"]
+      },
+      {
+        "id": 2,
+        "titre": "Chicago Fire",
+        "artistes": ["Lily Moon"],
+        "description": "Blues électrique de Chicago.",
+        "style": "blues rock",
+        "video": null,
+        "horaire": "22:00",
+        "images": ["img/spectacles/2.jpg"]
+      }
+    ]
+  },
+  "links": {
+    "self": { "href": "/soirees/1" },
+    "spectacles": { "href": "/spectacles?date=2027-06-12" },
+    "ajouter_au_panier": { "href": "/panier/lignes", "method": "POST" }
+  }
+}

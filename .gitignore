@@ -1,0 +1,7 @@
+back/vendor/
+back/config/nrv.db.ini
+back/.phpunit.cache/
+front/node_modules/
+.env
+.idea/
+.vscode/
