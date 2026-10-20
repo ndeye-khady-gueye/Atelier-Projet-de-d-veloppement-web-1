@@ -19,3 +19,6 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Dépendances du générateur de données (Faker) : composer install dans sql/
+/sql/vendor/
