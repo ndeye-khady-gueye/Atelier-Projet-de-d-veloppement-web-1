@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programme – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html" aria-current="page">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <h1>Programme du festival</h1>
+
+  <form class="filtres" id="filtres" action="index.html" method="get">
+    <div class="champ">
+      <label for="filtre-date">Date</label>
+      <input type="date" id="filtre-date" name="date">
+    </div>
+    <div class="champ">
+      <label for="filtre-style">Style</label>
+      <select id="filtre-style" name="style">
+        <option value="">Tous les styles</option>
+        <option value="1">blues rock</option>
+      </select>
+    </div>
+    <button class="bouton" type="submit">Filtrer</button>
+  </form>
+
+  <section id="liste-spectacles" class="liste-spectacles" aria-label="Liste des spectacles">
+    <article class="carte-spectacle">
+      <a class="carte-spectacle__lien" href="soiree.html?id=1">
+        <picture>
+          <img src="img/spectacles/1.jpg" alt="Delta Roots en concert" width="640" height="360" loading="lazy">
+        </picture>
+        <div class="carte-spectacle__corps">
+          <h2 class="carte-spectacle__titre">Delta Roots</h2>
+          <p class="carte-spectacle__date"><time datetime="2027-06-12T20:30">12 juin 2027 · 20h30</time></p>
+          <p class="etiquette">blues rock</p>
+        </div>
+      </a>
+    </article>
+  </section>
+
+  <nav class="pagination" aria-label="Pagination">
+    <a class="bouton bouton--secondaire" href="#" aria-disabled="true">Précédent</a>
+    <span>Page 1 / 2</span>
+    <a class="bouton bouton--secondaire" href="#">Suivant</a>
+  </nav>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+</body>
+</html>

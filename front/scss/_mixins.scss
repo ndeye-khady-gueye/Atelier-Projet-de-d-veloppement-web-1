@@ -1,0 +1,15 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+// Mobile first : uniquement des conditions min-width
+@mixin from($nom) {
+  @media screen and (min-width: map.get($breakpoints, $nom)) { @content; }
+}
+@mixin flex($sens: row, $gap: $espace, $align: stretch) {
+  display: flex; flex-direction: $sens; gap: $gap; align-items: $align;
+}
+@mixin grille($colonnes, $gap: $espace) {
+  display: grid; grid-template-columns: repeat($colonnes, 1fr); gap: $gap;
+}
+// Cible tactile confortable (>= 44px)
+@mixin cible-tactile { min-height: 2.75em; padding: .5em 1.25em; }

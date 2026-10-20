@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blues Night – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <article class="soiree" id="soiree">
+    <header class="soiree__entete">
+      <p class="soiree__theme">Soirée blues</p>
+      <h1>Blues Night</h1>
+      <p><time datetime="2027-06-12T20:00">12 juin 2027 · 20h00</time><br>
+         L'Autre Canal, 45 boulevard d'Austrasie, Nancy</p>
+    </header>
+
+    <section class="soiree__tarifs" aria-labelledby="titre-tarifs">
+      <h2 id="titre-tarifs">Tarifs</h2>
+      <dl class="tarifs">
+        <div><dt>Normal</dt><dd>30 €</dd></div>
+        <div><dt>Réduit</dt><dd>20 €</dd></div>
+        <div><dt>Pass 3 jours normal</dt><dd>87,30 €</dd></div>
+        <div><dt>Pass 3 jours réduit</dt><dd>58,20 €</dd></div>
+      </dl>
+      <p>Places restantes : <strong>80</strong></p>
+    </section>
+
+    <form class="achat" id="form-panier" action="#" method="post">
+      <h2>Réserver</h2>
+      <div class="champ">
+        <label for="tarif">Tarif</label>
+        <select id="tarif" name="tarif">
+          <option value="normal">Normal – 30 €</option>
+          <option value="reduit">Réduit – 20 €</option>
+        </select>
+      </div>
+      <div class="champ">
+        <label for="quantite">Quantité</label>
+        <input type="number" id="quantite" name="quantite" min="1" value="1">
+      </div>
+      <button class="bouton" type="submit">Ajouter au panier</button>
+    </form>
+
+    <section id="liste-spectacles-soiree" class="soiree__spectacles" aria-label="Spectacles de la soirée">
+      <article class="spectacle">
+        <picture>
+          <img src="img/spectacles/1.jpg" alt="Delta Roots" width="640" height="360" loading="lazy">
+        </picture>
+        <div class="spectacle__corps">
+          <h3>Delta Roots</h3>
+          <p><time datetime="2027-06-12T20:30">20h30</time></p>
+          <p class="spectacle__artistes">Lily Moon, Sam Waters</p>
+          <p>Blues du Mississippi revisité.</p>
+          <p class="etiquette">blues rock</p>
+          <p><a class="bouton bouton--secondaire" href="https://www.youtube.com/watch?v=exemple" target="_blank" rel="noopener">Voir la vidéo</a></p>
+        </div>
+      </article>
+    </section>
+  </article>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+</body>
+</html>
