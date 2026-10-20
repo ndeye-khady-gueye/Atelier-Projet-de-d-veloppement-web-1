@@ -3,7 +3,6 @@
 # Ports : plage 45000-45003 (à confirmer avec la répartition des ports docketu)
 
 services:
-
   # API PHP / Slim (dossier back/)
   nrv.api:
     build:
@@ -13,7 +12,7 @@ services:
     volumes:
       - ./back:/var/www/html
     environment:
-      NRV_DEBUG: "1"            # mettre "0" sur docketu pour la démo
+      NRV_DEBUG: "${NRV_DEBUG:-1}" # 0 sur docketu (fichier .env)
       NRV_CORS_ORIGIN: "*"
     depends_on:
       - nrv.db
@@ -25,7 +24,7 @@ services:
     environment:
       POSTGRES_DB: nrv
       POSTGRES_USER: nrv
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: "${NRV_DB_PASSWORD:-changeme}" # mot de passe réel dans .env sur docketu
     volumes:
       - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - ./sql/data-dev.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
