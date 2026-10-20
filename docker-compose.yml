@@ -1,23 +1,55 @@
-version: '3.8'
+# NRV.net - environnement complet (local et docketu)
+# Lancer :  docker compose up -d --build
+# Ports : plage 45000-45003 (à confirmer avec la répartition des ports docketu)
 
 services:
-  api:
-    build: .
-    container_name: slim_app
+
+  # API PHP / Slim (dossier back/)
+  nrv.api:
+    build:
+      context: ./docker/php
     ports:
       - "45000:80"
     volumes:
-      - .:/var/www/html
+      - ./back:/var/www/html
     environment:
-      - DISPLAY_ERROR_DETAILS=true
+      NRV_DEBUG: "1"            # mettre "0" sur docketu pour la démo
+      NRV_CORS_ORIGIN: "*"
+    depends_on:
+      - nrv.db
+    restart: unless-stopped
 
-  # Décommente si tu utilises une base PostgreSQL
-  # db:
-  #   image: postgres:15
-  #   container_name: postgres_db
-  #   environment:
-  #     POSTGRES_DB: app_db
-  #     POSTGRES_USER: user
-  #     POSTGRES_PASSWORD: secret_password
-  #   ports:
-  #     - "5432:5432"
+  # Base PostgreSQL, initialisée avec les scripts du dossier sql/ au premier lancement
+  nrv.db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: nrv
+      POSTGRES_USER: nrv
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./sql/data-dev.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+      - nrv-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Interface d'administration de la base : http://localhost:45001
+  # (système PostgreSQL, serveur nrv.db, utilisateur nrv, mot de passe changeme)
+  adminer:
+    image: adminer
+    ports:
+      - "45001:8080"
+    depends_on:
+      - nrv.db
+    restart: unless-stopped
+
+  # Front statique (dossier front/) : http://localhost:45002
+  nrv.front:
+    image: nginx:alpine
+    ports:
+      - "45002:80"
+    volumes:
+      - ./front:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+volumes:
+  nrv-data:
