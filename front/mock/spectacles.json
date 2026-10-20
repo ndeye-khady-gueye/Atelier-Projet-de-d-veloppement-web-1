@@ -1,0 +1,48 @@
+{
+  "type": "collection",
+  "count": 3,
+  "total": 5,
+  "page": 1,
+  "pages": 2,
+  "spectacles": [
+    {
+      "spectacle": {
+        "id": 1,
+        "titre": "Delta Roots",
+        "date": "2027-06-12",
+        "horaire": "20:30",
+        "image": "img/spectacles/1.jpg",
+        "style": "blues rock"
+      },
+      "links": { "soiree": { "href": "/soirees/1" } }
+    },
+    {
+      "spectacle": {
+        "id": 2,
+        "titre": "Chicago Fire",
+        "date": "2027-06-12",
+        "horaire": "22:00",
+        "image": "img/spectacles/2.jpg",
+        "style": "blues rock"
+      },
+      "links": { "soiree": { "href": "/soirees/1" } }
+    },
+    {
+      "spectacle": {
+        "id": 3,
+        "titre": "Iron Veins",
+        "date": "2027-06-13",
+        "horaire": "20:00",
+        "image": "img/spectacles/3.jpg",
+        "style": "métal"
+      },
+      "links": { "soiree": { "href": "/soirees/2" } }
+    }
+  ],
+  "links": {
+    "self": { "href": "/spectacles?page=1" },
+    "next": { "href": "/spectacles?page=2" },
+    "first": { "href": "/spectacles?page=1" },
+    "last": { "href": "/spectacles?page=2" }
+  }
+}

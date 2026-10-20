@@ -1,0 +1,11 @@
+{
+  "type": "collection",
+  "count": 4,
+  "styles": [
+    { "style": { "id": 1, "libelle": "blues rock" }, "links": { "spectacles": { "href": "/spectacles?style=1" } } },
+    { "style": { "id": 4, "libelle": "chanson" }, "links": { "spectacles": { "href": "/spectacles?style=4" } } },
+    { "style": { "id": 2, "libelle": "classic rock" }, "links": { "spectacles": { "href": "/spectacles?style=2" } } },
+    { "style": { "id": 3, "libelle": "métal" }, "links": { "spectacles": { "href": "/spectacles?style=3" } } }
+  ],
+  "links": { "self": { "href": "/styles" } }
+}

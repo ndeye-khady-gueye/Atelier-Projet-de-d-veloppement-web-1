@@ -1,14 +1,21 @@
 # Dépendances du Backend (PHP/Slim)
 /back/vendor/
+/back/.phpunit.cache/
+/back/.phpunit.result.cache
+
+# Configuration locale (mot de passe de la base, non versionnée)
+/back/config/nrv.db.ini
 
 # Fichiers d'environnement et secrets (Docker, BDD)
 .env
 .env.*
 
-# Dépendances du Frontend (si B utilise npm)
+# Dépendances du Frontend
 /front/node_modules/
 /front/.sass-cache/
 
-# Fichiers systèmes
+# Éditeurs et fichiers système
+.idea/
+.vscode/
 .DS_Store
 Thumbs.db
