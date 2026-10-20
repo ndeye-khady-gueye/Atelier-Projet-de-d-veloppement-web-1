@@ -1,0 +1,78 @@
+digraph modele {
+  graph [rankdir=TB, splines=spline, nodesep=0.9, ranksep=0.9, fontname="DejaVu Sans", bgcolor="white", pad=0.4,
+         label="NRV.net — modèle du domaine", labelloc=t, fontsize=20];
+  node  [shape=plain, fontname="DejaVu Sans", fontsize=11];
+  edge  [fontname="DejaVu Sans", fontsize=10, arrowhead=none, color="#444444"];
+
+  // ---------- programme ----------
+  Lieu [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Lieu</b></td></tr>
+    <tr><td align="left" balign="left">nom : texte<br/>adresse : texte<br/>nbPlaces : entier</td></tr></table>>];
+  Soiree [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Soirée</b></td></tr>
+    <tr><td align="left" balign="left">nom : texte<br/>thématique : texte<br/>dateDebut : date et heure<br/>placesVendues : entier</td></tr>
+    <tr><td align="left" balign="left" border="1" sides="t">placesRestantes() : entier<br/>estComplete() : booléen</td></tr></table>>];
+  Spectacle [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Spectacle</b></td></tr>
+    <tr><td align="left" balign="left">titre : texte<br/>description : texte<br/>urlVideo : URL [0..1]<br/>horairePrevisionnel : date et heure</td></tr></table>>];
+  Artiste [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Artiste</b></td></tr>
+    <tr><td align="left">nom : texte</td></tr></table>>];
+  Style [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Style</b></td></tr>
+    <tr><td align="left">libellé : texte</td></tr></table>>];
+  Image [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef4fb">
+    <tr><td bgcolor="#cfe0f3"><b>Image</b></td></tr>
+    <tr><td align="left">url : URL</td></tr></table>>];
+
+  // ---------- tarifs ----------
+  Grille [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#fdf3e6">
+    <tr><td bgcolor="#f6dcb5"><b>GrilleTarifaire</b><br/><i>(unique pour toutes les soirées)</i></td></tr>
+    <tr><td align="left" balign="left">prixNormal : montant<br/>prixReduit : montant<br/>remisePass : pourcentage (3 %)</td></tr>
+    <tr><td align="left" balign="left" border="1" sides="t">prix(catégorie) : montant<br/>prixPass(catégorie) : montant</td></tr></table>>];
+  Categorie [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#fdf3e6">
+    <tr><td bgcolor="#f6dcb5">«énumération»<br/><b>Catégorie</b></td></tr>
+    <tr><td align="left" balign="left">normal<br/>réduit</td></tr></table>>];
+
+  // ---------- achat ----------
+  Utilisateur [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>Utilisateur</b></td></tr>
+    <tr><td align="left" balign="left">nom : texte<br/>email : texte<br/>motDePasse : haché<br/>rôle : client | gestionnaire</td></tr></table>>];
+  Panier [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>Panier</b></td></tr>
+    <tr><td align="left" balign="left" border="1" sides="t">montantTotal() : montant<br/>valider() : Commande</td></tr></table>>];
+  Ligne [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>LignePanier</b></td></tr>
+    <tr><td align="left" balign="left">catégorie : Catégorie<br/>quantité : entier</td></tr>
+    <tr><td align="left" border="1" sides="t">sousTotal() : montant</td></tr></table>>];
+  Pass [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>Pass3Jours</b></td></tr>
+    <tr><td align="left" balign="left">catégorie : Catégorie</td></tr>
+    <tr><td align="left" balign="left" border="1" sides="t">3 soirées différentes,<br/>non forcément consécutives</td></tr></table>>];
+  Commande [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>Commande</b></td></tr>
+    <tr><td align="left" balign="left">date : date et heure<br/>montantTotal : montant<br/>statut : en attente | payée</td></tr>
+    <tr><td align="left" balign="left" border="1" sides="t">payer(carte) : billets</td></tr></table>>];
+  Billet [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" bgcolor="#eef8ee">
+    <tr><td bgcolor="#cbe8cb"><b>Billet</b><br/><i>(non nominatif)</i></td></tr>
+    <tr><td align="left" balign="left">référence : texte<br/>catégorie : Catégorie<br/>prix : montant<br/>token : texte aléatoire</td></tr></table>>];
+
+  { rank=same; Grille; Categorie; Soiree; Lieu; }
+  { rank=same; Image; Spectacle; Style; }
+
+  Spectacle -> Style     [taillabel="0..*", headlabel="1", label="  a pour style  ", minlen=2];
+  Spectacle -> Artiste   [taillabel="0..*", headlabel="1..*", label="  est joué par  "];
+  Image -> Spectacle     [taillabel="0..*", headlabel="1", label="  illustre  ", minlen=2];
+  Soiree -> Spectacle    [taillabel="1", headlabel="2..3", label="  programme  ", arrowtail=diamond, dir=back];
+  Soiree -> Lieu         [taillabel="0..*", headlabel="1", label="  a lieu à  "];
+
+  Utilisateur -> Panier  [taillabel="1", headlabel="0..1", label="  possède  "];
+  Panier -> Ligne        [taillabel="1", headlabel="0..*", label="  contient  ", arrowtail=diamond, dir=back];
+  Ligne -> Soiree        [taillabel="0..*", headlabel="1", label="  pour  "];
+  Pass -> Ligne          [taillabel="0..1", headlabel="3", label="  regroupe  "];
+  Utilisateur -> Commande [taillabel="1", headlabel="0..*", label="  passe  "];
+  Commande -> Billet     [taillabel="1", headlabel="1..*", label="  génère  ", arrowtail=diamond, dir=back];
+  Billet -> Soiree       [taillabel="0..*", headlabel="1", label="  donne accès à  "];
+  Ligne -> Categorie     [style=dashed, arrowhead=vee, label="  utilise  "];
+  Grille -> Categorie    [style=dashed, arrowhead=vee, label="  tarifie  "];
+}
