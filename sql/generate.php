@@ -1,108 +1,162 @@
 <?php
+/**
+ * NRV.net - génération du jeu de données de test (FakerPHP)
+ *
+ * Usage (depuis le dossier sql/) :
+ *   composer install
+ *   php generate.php        -> écrit sql/data.sql
+ *
+ * Le festival dure 2 semaines (10 au 23 juin 2027) : 12 soirées, 2 ou 3 spectacles
+ * par soirée (30 au total), des artistes, des images et des utilisateurs de test.
+ * La graine fixe rend le fichier identique à chaque génération.
+ */
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Faker\Factory;
 
 $faker = Factory::create('fr_FR');
+$faker->seed(2027);
+mt_srand(2027);
 
-$sql = "-- Données de test complètes générées pour NRV.net\n";
-$sql .= "-- Génération du " . date('Y-m-d H:i:s') . "\n\n";
-
-// 1. LIEUX (3)
-$sql .= "-- 1. Lieux\n";
-$sql .= "INSERT INTO lieu (nom, adresse, nb_places) VALUES\n";
-$sql .= "('Zénith de Nancy', 'Rue du Zénith, 54320 Maxéville', 6000),\n";
-$sql .= "('L''Autre Canal', '45 boulevard d''Austrasie, 54000 Nancy', 1200),\n";
-$sql .= "('Parc Pépinière', 'Place Boffrand, 54000 Nancy', 3000);\n\n";
-
-// 2. STYLES (6)
-$sql .= "-- 2. Styles\n";
-$sql .= "INSERT INTO style (libelle) VALUES\n";
-$styles = ['Blues rock', 'Classic rock', 'Métal', 'Chanson', 'Hard rock', 'Punk'];
-$styleRows = [];
-foreach ($styles as $style) {
-    $styleRows[] = "('" . addslashes($style) . "')";
+/** Chaîne SQL : les apostrophes sont doublées (norme SQL / PostgreSQL). */
+function q(?string $s): string
+{
+    return $s === null ? 'NULL' : "'" . str_replace("'", "''", $s) . "'";
 }
-$sql .= implode(",\n", $styleRows) . ";\n\n";
 
-// 3. SOIREES (12 sur 2 semaines)
-$sql .= "-- 3. Soirées\n";
-$sql .= "INSERT INTO soiree (nom, thematique, date_debut, lieu_id, places_vendues) VALUES\n";
-$soirees = [];
-for ($i = 1; $i <= 12; $i++) {
-    $nom = "Soirée " . addslashes($faker->word());
-    $thematique = "Festival NRV - Nuit " . $i;
-    // Dates dans les 2 prochaines semaines
-    $date = $faker->dateTimeBetween('now', '+2 weeks')->format('Y-m-d 20:00:00');
-    $lieu_id = rand(1, 3);
-    $places_vendues = rand(50, 1000);
-    $soirees[] = "('$nom', '$thematique', '$date', $lieu_id, $places_vendues)";
-}
-$sql .= implode(",\n", $soirees) . ";\n\n";
+$sql = "-- Données de test NRV.net, générées par sql/generate.php (FakerPHP, graine 2027)\n";
+$sql .= "-- Ne pas modifier à la main : relancer php generate.php\n\n";
 
-// 4. SPECTACLES (30 répartis sur les 12 soirées)
-$sql .= "-- 4. Spectacles\n";
-$sql .= "INSERT INTO spectacle (titre, description, url_video, horaire_previsionnel, style_id, soiree_id) VALUES\n";
-$spectacles = [];
-for ($i = 1; $i <= 30; $i++) {
-    $titre = addslashes($faker->catchPhrase());
-    $desc = addslashes($faker->paragraph(2));
-    $url_video = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    $horaire = $faker->time('H:i:00'); // Heure aléatoire
-    $style_id = rand(1, 6);
-    $soiree_id = rand(1, 12);
-    $spectacles[] = "('$titre', '$desc', '$url_video', '$horaire', $style_id, $soiree_id)";
-}
-$sql .= implode(",\n", $spectacles) . ";\n\n";
-
-// 5. ARTISTES (40 artistes)
-$sql .= "-- 5. Artistes\n";
-$sql .= "INSERT INTO artiste (nom) VALUES\n";
-$artistes = [];
-for ($i = 1; $i <= 40; $i++) {
-    $artistes[] = "('" . addslashes($faker->name()) . "')";
-}
-$sql .= implode(",\n", $artistes) . ";\n\n";
-
-// 6. SPECTACLE_ARTISTE (Liaison : 1 à 3 artistes par spectacle)
-$sql .= "-- 6. Spectacle_Artiste\n";
-$sql .= "INSERT INTO spectacle_artiste (spectacle_id, artiste_id) VALUES\n";
-$spectacle_artiste = [];
-for ($spectacle_id = 1; $spectacle_id <= 30; $spectacle_id++) {
-    $nb_artistes = rand(1, 3);
-    $artistes_assignes = (array) array_rand(array_flip(range(1, 40)), $nb_artistes);
-    foreach ($artistes_assignes as $artiste_id) {
-        $spectacle_artiste[] = "($spectacle_id, $artiste_id)";
-    }
-}
-$sql .= implode(",\n", $spectacle_artiste) . ";\n\n";
-
-// 7. IMAGES (1 à 2 images par spectacle)
-$sql .= "-- 7. Images\n";
-$sql .= "INSERT INTO image (url, spectacle_id) VALUES\n";
-$images = [];
-for ($spectacle_id = 1; $spectacle_id <= 30; $spectacle_id++) {
-    $nb_images = rand(1, 2);
-    for ($j = 0; $j < $nb_images; $j++) {
-        $images[] = "('https://picsum.photos/seed/" . rand(1, 1000) . "/800/600', $spectacle_id)";
-    }
-}
-$sql .= implode(",\n", $images) . ";\n\n";
-
-// 8. UTILISATEURS (1 admin, 1 client)
-$sql .= "-- 8. Utilisateurs\n";
-$sql .= "INSERT INTO utilisateur (nom, email, password_hash, role) VALUES\n";
-$hash_password = password_hash('nrv2024', PASSWORD_BCRYPT);
-$utilisateurs = [
-    "('Admin User', 'admin@nrv.net', '$hash_password', 'admin')",
-    "('Client User', 'client@test.com', '$hash_password', 'client')"
+// 1. LIEUX (id => capacité)
+$lieux = [
+    1 => ['Zénith de Nancy', 'Rue du Zénith, 54320 Maxéville', 6000],
+    2 => ["L'Autre Canal", "45 boulevard d'Austrasie, 54000 Nancy", 1200],
+    3 => ['Parc de la Pépinière', 'Place Boffrand, 54000 Nancy', 3000],
 ];
-$sql .= implode(",\n", $utilisateurs) . ";\n";
+$sql .= "-- 1. Lieux\nINSERT INTO lieu (nom, adresse, nb_places) VALUES\n";
+$sql .= implode(",\n", array_map(fn ($l) => "(" . q($l[0]) . ", " . q($l[1]) . ", {$l[2]})", $lieux)) . ";\n\n";
 
-// Écriture du fichier final
-$outputFile = __DIR__ . '/data.sql';
-if (file_put_contents($outputFile, $sql) !== false) {
-    echo "Succès : le fichier sql/data.sql a été généré avec toutes les données (Soirées, Spectacles, Artistes, Utilisateurs...) !\n";
-} else {
-    echo "Erreur : impossible d'écrire le fichier sql/data.sql.\n";
+// 2. STYLES (id dans l'ordre d'insertion)
+$styles = [1 => 'blues rock', 2 => 'classic rock', 3 => 'métal', 4 => 'chanson', 5 => 'hard rock', 6 => 'punk'];
+$sql .= "-- 2. Styles\nINSERT INTO style (libelle) VALUES\n";
+$sql .= implode(",\n", array_map(fn ($s) => "(" . q($s) . ")", $styles)) . ";\n\n";
+
+// 3. SOIRÉES : date, nom, thématique, style principal, lieu, nb de spectacles
+$soirees = [
+    ['2027-06-10', 'Ouverture : Legends of Rock', 'Les grands classiques du rock', 2, 1, 3],
+    ['2027-06-11', 'Blues Night', 'Blues du delta et de Chicago', 1, 2, 2],
+    ['2027-06-12', 'Metal Storm', 'Heavy et thrash métal', 3, 1, 3],
+    ['2027-06-13', 'Chansons Électriques', 'La chanson française version rock', 4, 3, 2],
+    ['2027-06-15', 'Hard Rock Fever', 'Riffs et guitares saturées', 5, 2, 3],
+    ['2027-06-16', 'Punk Attitude', 'Punk rock et énergie brute', 6, 2, 2],
+    ['2027-06-17', 'Blues & Soul Session', 'Le blues rencontre la soul', 1, 3, 3],
+    ['2027-06-18', 'Classic Rock Revival', 'Le rock des années 70 et 80', 2, 3, 2],
+    ['2027-06-19', 'Nuit du Métal', 'Métal mélodique et symphonique', 3, 1, 3],
+    ['2027-06-20', 'Rock en Français', 'Les voix de la scène française', 4, 2, 2],
+    ['2027-06-22', 'Heavy Night', 'Hard rock et heavy métal', 5, 1, 3],
+    ['2027-06-23', 'Clôture : Rock Party', 'Grande soirée de clôture tous styles', 2, 1, 2],
+];
+$sql .= "-- 3. Soirées\nINSERT INTO soiree (nom, thematique, date_debut, lieu_id, places_vendues) VALUES\n";
+$rows = [];
+foreach ($soirees as $i => [$date, $nom, $theme, $style, $lieu, $nb]) {
+    $capacite = $lieux[$lieu][2];
+    // la soirée de clôture est complète (pour tester l'affichage « complet ») ; les autres entre 10 % et 90 %
+    $vendues = $i === 11 ? $capacite : (int) round($capacite * mt_rand(10, 90) / 100);
+    $rows[] = "(" . q($nom) . ", " . q($theme) . ", " . q("$date 20:00:00") . ", $lieu, $vendues)";
 }
+$sql .= implode(",\n", $rows) . ";\n\n";
+
+// 4. SPECTACLES : 2 ou 3 par soirée, à 20:00, 21:30, 23:00
+$groupes = [
+    1 => ['Delta Roots', 'Chicago Fire', 'Muddy Road', 'Blue Lantern', 'The Crossroads Band', 'Smokin\' Harp', 'Bayou Kings', 'Whiskey Train'],
+    2 => ['Back to 70s', 'Stone Highway', 'The Velvet Riders', 'Golden Vinyl', 'Rolling Thunder Revue', 'Electric Avenue', 'Silver Lining', 'The Long Road'],
+    3 => ['Iron Veins', 'Black Anvil', 'Forge of Souls', 'Nordic Hammer', 'Crimson Abyss', 'Steel Prophecy', 'Dark Meridian', 'Titan Fall'],
+    4 => ['Les Mots Bleus', 'Café Électrique', 'Les Enfants du Rock', 'Madame Fuzz', 'La Ligne Claire', 'Rue des Amplis', 'Les Nuits Fauves', 'Plein Volume'],
+    5 => ['Thunder Riot', 'High Voltage Kings', 'Bad Reputation', 'Wild Engines', 'Red Lightning', 'Rock Bottom Riders', 'Loud Machine', 'Hell Riders'],
+    6 => ['Les Rats Bruyants', 'No Future Club', 'Safety Pins', 'Crash Test', 'Les Sales Gosses', 'Anarchy Kitchen', 'Les Vandales', 'Pogo Club'],
+];
+$horaires = ['20:00:00', '21:30:00', '23:00:00'];
+// style proche de chaque style (blues -> classic rock, métal -> hard rock, chanson -> classic rock...)
+$stylesProches = [1 => 2, 2 => 5, 3 => 5, 4 => 2, 5 => 3, 6 => 5];
+// descriptions : une phrase de présentation + une phrase sur le concert, selon le style
+$presentations = [
+    1 => ['revisite le blues du Mississippi avec une slide guitar brûlante', 'mêle harmonica, guitare électrique et voix rocailleuse'],
+    2 => ['fait revivre les grands hymnes du rock des années 70', 'enchaîne riffs légendaires et solos interminables'],
+    3 => ['déploie un métal puissant aux riffs martelés', 'associe double pédale, chœurs épiques et guitares acérées'],
+    4 => ['porte des textes en français sur des guitares électriques', 'mélange chanson à texte et énergie rock'],
+    5 => ['envoie un hard rock survolté hérité des grands noms du genre', 'aligne riffs saturés et refrains à reprendre en chœur'],
+    6 => ['joue un punk rapide, court et sans concession', 'réveille l\'esprit punk avec des morceaux de deux minutes'],
+];
+$concerts = [
+    'Un concert à ne pas manquer pour ouvrir la soirée.',
+    'Le groupe présentera les titres de son nouvel album.',
+    'Une prestation scénique réputée pour son énergie.',
+    'Premier passage du groupe à Nancy.',
+    'Un set d\'une heure qui promet de faire vibrer la salle.',
+];
+$villes = ['Nancy', 'Metz', 'Strasbourg', 'Lyon', 'Lille', 'Rennes', 'Bordeaux', 'Marseille', 'Toulouse', 'Nantes',
+    'Bruxelles', 'Genève', 'Montréal', 'Londres', 'Chicago', 'Memphis', 'Stockholm', 'Berlin'];
+$description = fn (string $titre, int $style) => $titre . ', groupe originaire de ' . $villes[mt_rand(0, count($villes) - 1)] . ', '
+    . $presentations[$style][mt_rand(0, 1)] . '. ' . $concerts[mt_rand(0, count($concerts) - 1)];
+// URL de vidéos à compléter avec de vraies vidéos (sinon NULL) ; elles sont réparties en boucle
+$videos = [];
+
+$spectacles = [];   // [titre, description, video, horaire, style, soiree]
+foreach ($soirees as $s => [$date, , , $styleSoiree, , $nb]) {
+    for ($k = 0; $k < $nb; $k++) {
+        // la soirée de clôture mélange les styles ; sinon le 3e spectacle est d'un style proche
+        $style = $s === 11 ? mt_rand(1, 6) : ($k === 2 ? $stylesProches[$styleSoiree] : $styleSoiree);
+        $titre = array_shift($groupes[$style]) ?? $faker->unique()->lastName() . ' Band';
+        $desc = $description($titre, $style);
+        $video = $videos === [] ? null : $videos[count($spectacles) % count($videos)];
+        $spectacles[] = [$titre, $desc, $video, "$date {$horaires[$k]}", $style, $s + 1];
+    }
+}
+$sql .= "-- 4. Spectacles (" . count($spectacles) . ")\n";
+$sql .= "INSERT INTO spectacle (titre, description, url_video, horaire_previsionnel, style_id, soiree_id) VALUES\n";
+$sql .= implode(",\n", array_map(
+    fn ($p) => "(" . q($p[0]) . ", " . q($p[1]) . ", " . q($p[2]) . ", " . q($p[3]) . ", {$p[4]}, {$p[5]})",
+    $spectacles
+)) . ";\n\n";
+
+// 5. ARTISTES et 6. SPECTACLE_ARTISTE : 1 à 3 musiciens par spectacle
+$artistes = [];
+$liens = [];
+foreach ($spectacles as $i => $p) {
+    for ($k = 0, $n = mt_rand(1, 3); $k < $n; $k++) {
+        $artistes[] = $faker->unique()->name();
+        $liens[] = '(' . ($i + 1) . ', ' . count($artistes) . ')';
+    }
+}
+$sql .= "-- 5. Artistes\nINSERT INTO artiste (nom) VALUES\n";
+$sql .= implode(",\n", array_map(fn ($a) => "(" . q($a) . ")", $artistes)) . ";\n\n";
+$sql .= "-- 6. Spectacle_Artiste\nINSERT INTO spectacle_artiste (spectacle_id, artiste_id) VALUES\n";
+$sql .= implode(",\n", $liens) . ";\n\n";
+
+// 7. IMAGES : 1 ou 2 photos par spectacle (picsum.photos, toujours la même pour un spectacle)
+$images = [];
+foreach ($spectacles as $i => $p) {
+    for ($k = 1, $n = mt_rand(1, 2); $k <= $n; $k++) {
+        $images[] = "(" . q('https://picsum.photos/seed/nrv-' . ($i + 1) . "-$k/800/600") . ', ' . ($i + 1) . ')';
+    }
+}
+$sql .= "-- 7. Images\nINSERT INTO image (url, spectacle_id) VALUES\n" . implode(",\n", $images) . ";\n\n";
+
+// 8. UTILISATEURS DE TEST (mot de passe : nrv2024)
+$hash = password_hash('nrv2024', PASSWORD_BCRYPT);
+$utilisateurs = [
+    ['Admin NRV', 'admin@nrv.net', 'admin'],
+    ['Client Test', 'client@test.com', 'client'],
+    ['Marc Dubois', 'marc.dubois@test.com', 'client'],
+];
+$sql .= "-- 8. Utilisateurs (mot de passe de test : nrv2024)\n";
+$sql .= "INSERT INTO utilisateur (nom, email, password_hash, role) VALUES\n";
+$sql .= implode(",\n", array_map(fn ($u) => "(" . q($u[0]) . ", " . q($u[1]) . ", " . q($hash) . ", " . q($u[2]) . ")", $utilisateurs)) . ";\n";
+
+$fichier = __DIR__ . '/data.sql';
+if (file_put_contents($fichier, $sql) === false) {
+    fwrite(STDERR, "Erreur : impossible d'écrire $fichier\n");
+    exit(1);
+}
+echo 'sql/data.sql généré : ' . count($soirees) . ' soirées, ' . count($spectacles) . ' spectacles, '
+    . count($artistes) . ' artistes, ' . count($images) . ' images, ' . count($utilisateurs) . " utilisateurs\n";
