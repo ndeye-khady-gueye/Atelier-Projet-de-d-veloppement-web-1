@@ -1,0 +1,15 @@
+// Palette « scène de rock » : fond noir chaud, accent orange amplis
+$fond: #14110f;
+$carte: #211d1a;
+$texte: #f4efe8;
+$discret: #b8aea2;
+$accent: #ff5a1f;
+$bordure: #3a332d;
+
+$espace: 1rem;
+$rayon: .5rem;
+$largeur-max: 75em;
+
+// Points de rupture en em, déduits du contenu :
+// 2 cartes (~18em chacune) => 40em ; 3 cartes => 62em
+$breakpoints: (tablette: 40em, bureau: 62em);

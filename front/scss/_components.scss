@@ -1,0 +1,47 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.carte-spectacle, .spectacle, .achat, .soiree__tarifs { background: $carte; border-radius: $rayon; overflow: hidden; }
+.soiree__tarifs, .achat { padding: $espace; h2 { margin-top: 0; } }
+
+.carte-spectacle {
+  &__lien { display: block; text-decoration: none; height: 100%; }
+  &__corps { padding: $espace; }
+  &__titre { margin: 0 0 .25em; }
+  &__date { margin: 0 0 .5em; color: $discret; }
+  img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  @media (hover: hover) { &:hover { outline: .15em solid $accent; } }  // :hover inopérant au tactile
+  &:focus-within { outline: .15em solid $accent; }
+}
+
+.spectacle {
+  img { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; }
+  &__corps { padding: $espace; > :not(:last-child) { margin-block: 0 .75em; } }
+  &__artistes { color: $discret; font-style: italic; }
+}
+
+.etiquette { display: inline-block; margin: 0; padding: .15em .75em; border: 1px solid $accent;
+  border-radius: 2em; font-size: .85rem; text-transform: uppercase; color: $accent; }
+
+.champ { display: flex; flex-direction: column; gap: .25em;
+  label { font-weight: bold; }
+  input, select { @include cible-tactile; font: inherit; color: $texte; background: $fond;
+    border: 1px solid $bordure; border-radius: $rayon; width: 100%; } }
+.achat { @include flex(column, $espace); }
+
+.bouton { @include cible-tactile; display: inline-block; font: inherit; font-weight: bold; text-align: center;
+  text-decoration: none; background: $accent; color: #111; border: 0; border-radius: $rayon; cursor: pointer;
+  &--secondaire { background: transparent; color: $texte; border: 1px solid $texte; }
+  @media (hover: hover) { &:hover { filter: brightness(1.15); } } }
+
+.tarifs { margin: 0 0 $espace; @include grille(1, .5em);
+  div { display: flex; justify-content: space-between; padding-bottom: .5em; border-bottom: 1px solid $bordure;
+    &:last-child { border-bottom: 0; } }
+  dt { color: $discret; } dd { margin: 0; font-weight: bold; } }
+.soiree__theme { color: $accent; text-transform: uppercase; margin: 0; }
+
+// Messages (chargement, liste vide, erreurs de l'API) et formulaire de réservation
+.message { margin: 0; color: $discret;
+  &--erreur { padding: $espace; border: 1px solid $accent; border-radius: $rayon; color: $texte; } }
+.achat__champs { @include flex(column, $espace); margin: 0; padding: 0; border: 0;
+  &:disabled { opacity: .5; } }

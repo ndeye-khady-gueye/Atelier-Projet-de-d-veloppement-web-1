@@ -1,0 +1,386 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #14110f;
+  color: #f4efe8;
+  font: 1rem/1.5 "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2, h3 {
+  font-family: Impact, "Arial Narrow Bold", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+@media screen and (min-width: 40em) {
+  h1 {
+    font-size: 2.5rem;
+  }
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 0 0 0.25em;
+}
+
+a {
+  color: inherit;
+}
+a:focus-visible {
+  outline: 0.15em solid #ff5a1f;
+  outline-offset: 0.15em;
+}
+
+.conteneur {
+  width: 92%;
+  max-width: 75em;
+  margin-inline: auto;
+}
+
+.entete {
+  background: #000;
+  border-bottom: 0.2em solid #ff5a1f;
+}
+.entete__barre {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-block: 0.75em;
+}
+.entete__logo {
+  font: 1.6rem Impact, sans-serif;
+  text-decoration: none;
+}
+.entete__logo span {
+  color: #ff5a1f;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
+  align-items: stretch;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menu a {
+  display: block;
+  min-height: 2.75em;
+  padding: 0.5em 1.25em;
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+.menu a[aria-current=page] {
+  background: #ff5a1f;
+  color: #111;
+}
+@media (hover: hover) {
+  .menu a:hover {
+    background: #3a332d;
+  }
+}
+
+main {
+  padding-block: 1rem 3rem;
+}
+
+.pied {
+  padding-block: 1.5rem;
+  text-align: center;
+  color: #b8aea2;
+  border-top: 1px solid #3a332d;
+}
+
+.filtres {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+  background: #211d1a;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+@media screen and (min-width: 40em) {
+  .filtres {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+.filtres .champ {
+  flex: 1;
+}
+
+.liste-spectacles {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+@media screen and (min-width: 40em) {
+  .liste-spectacles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+@media screen and (min-width: 62em) {
+  .liste-spectacles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.pagination a[aria-disabled=true] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.soiree {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-areas: "entete" "tarifs" "achat" "spectacles";
+}
+@media screen and (min-width: 62em) {
+  .soiree {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: "entete tarifs" "spectacles achat" "spectacles .";
+    align-items: start;
+  }
+}
+.soiree__entete {
+  grid-area: entete;
+}
+.soiree__tarifs {
+  grid-area: tarifs;
+}
+.soiree__spectacles {
+  grid-area: spectacles;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+@media screen and (min-width: 40em) {
+  .soiree__spectacles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+@media screen and (min-width: 62em) {
+  .soiree__spectacles {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+}
+.soiree .achat {
+  grid-area: achat;
+}
+@media screen and (min-width: 62em) {
+  .soiree .achat {
+    position: sticky;
+    top: 1em;
+  }
+}
+
+.carte-spectacle, .spectacle, .achat, .soiree__tarifs {
+  background: #211d1a;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.soiree__tarifs, .achat {
+  padding: 1rem;
+}
+.soiree__tarifs h2, .achat h2 {
+  margin-top: 0;
+}
+
+.carte-spectacle__lien {
+  display: block;
+  text-decoration: none;
+  height: 100%;
+}
+.carte-spectacle__corps {
+  padding: 1rem;
+}
+.carte-spectacle__titre {
+  margin: 0 0 0.25em;
+}
+.carte-spectacle__date {
+  margin: 0 0 0.5em;
+  color: #b8aea2;
+}
+.carte-spectacle img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
+}
+@media (hover: hover) {
+  .carte-spectacle:hover {
+    outline: 0.15em solid #ff5a1f;
+  }
+}
+.carte-spectacle:focus-within {
+  outline: 0.15em solid #ff5a1f;
+}
+
+.spectacle img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
+}
+.spectacle__corps {
+  padding: 1rem;
+}
+.spectacle__corps > :not(:last-child) {
+  margin-block: 0 0.75em;
+}
+.spectacle__artistes {
+  color: #b8aea2;
+  font-style: italic;
+}
+
+.etiquette {
+  display: inline-block;
+  margin: 0;
+  padding: 0.15em 0.75em;
+  border: 1px solid #ff5a1f;
+  border-radius: 2em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #ff5a1f;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+.champ label {
+  font-weight: bold;
+}
+.champ input, .champ select {
+  min-height: 2.75em;
+  padding: 0.5em 1.25em;
+  font: inherit;
+  color: #f4efe8;
+  background: #14110f;
+  border: 1px solid #3a332d;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.achat {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.bouton {
+  min-height: 2.75em;
+  padding: 0.5em 1.25em;
+  display: inline-block;
+  font: inherit;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background: #ff5a1f;
+  color: #111;
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.bouton--secondaire {
+  background: transparent;
+  color: #f4efe8;
+  border: 1px solid #f4efe8;
+}
+@media (hover: hover) {
+  .bouton:hover {
+    filter: brightness(1.15);
+  }
+}
+
+.tarifs {
+  margin: 0 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5em;
+}
+.tarifs div {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #3a332d;
+}
+.tarifs div:last-child {
+  border-bottom: 0;
+}
+.tarifs dt {
+  color: #b8aea2;
+}
+.tarifs dd {
+  margin: 0;
+  font-weight: bold;
+}
+
+.soiree__theme {
+  color: #ff5a1f;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.message {
+  margin: 0;
+  color: #b8aea2;
+}
+.message--erreur {
+  padding: 1rem;
+  border: 1px solid #ff5a1f;
+  border-radius: 0.5rem;
+  color: #f4efe8;
+}
+
+.achat__champs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.achat__champs:disabled {
+  opacity: 0.5;
+}

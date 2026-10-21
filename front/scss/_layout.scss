@@ -1,0 +1,42 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.entete { background: #000; border-bottom: .2em solid $accent;
+  &__barre { @include flex(row, $espace, center); flex-wrap: wrap; justify-content: space-between; padding-block: .75em; }
+  &__logo { font: 1.6rem Impact, sans-serif; text-decoration: none; span { color: $accent; } }
+}
+.menu { @include flex(row, .25em); list-style: none; margin: 0; padding: 0;
+  a { display: block; @include cible-tactile; text-decoration: none; border-radius: $rayon;
+    &[aria-current="page"] { background: $accent; color: #111; }
+    @media (hover: hover) { &:hover { background: $bordure; } } }
+}
+main { padding-block: $espace 3rem; }
+.pied { padding-block: 1.5rem; text-align: center; color: $discret; border-top: 1px solid $bordure; }
+
+// Barre de filtres : colonne sur mobile, ligne (flex) dès la tablette
+.filtres { @include flex(column, $espace); background: $carte; padding: $espace; border-radius: $rayon;
+  @include from(tablette) { flex-direction: row; align-items: flex-end; }
+  .champ { flex: 1; } }
+
+// Cartes : grille 1 -> 2 -> 3 colonnes
+.liste-spectacles { @include grille(1); margin-block: 1.5rem;
+  @include from(tablette) { @include grille(2, 1.5rem); }
+  @include from(bureau) { @include grille(3, 1.5rem); } }
+
+.pagination { @include flex(row, $espace, center); justify-content: center;
+  a[aria-disabled="true"] { opacity: .4; pointer-events: none; } }
+
+// Page soirée : 1 colonne, puis 2 colonnes avec zones nommées
+.soiree { display: grid; gap: 1.5rem;
+  grid-template-areas: "entete" "tarifs" "achat" "spectacles";
+  @include from(bureau) {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: "entete tarifs" "spectacles achat" "spectacles .";
+    align-items: start; }
+  &__entete { grid-area: entete; }
+  &__tarifs { grid-area: tarifs; }
+  &__spectacles { grid-area: spectacles; @include grille(1);
+    @include from(tablette) { @include grille(2, 1.5rem); }
+    @include from(bureau) { @include grille(1, 1.5rem); } }
+  .achat { grid-area: achat; @include from(bureau) { position: sticky; top: 1em; } }
+}

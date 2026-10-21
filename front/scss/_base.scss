@@ -1,0 +1,15 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: $fond; color: $texte;
+  font: 1rem/1.5 "Trebuchet MS", "Segoe UI", sans-serif;
+}
+img { max-width: 100%; height: auto; display: block; }
+h1, h2, h3 { font-family: Impact, "Arial Narrow Bold", sans-serif; text-transform: uppercase; letter-spacing: .03em; line-height: 1.1; }
+h1 { font-size: 1.75rem; @include from(tablette) { font-size: 2.5rem; } }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.15rem; margin: 0 0 .25em; }
+a { color: inherit; &:focus-visible { outline: .15em solid $accent; outline-offset: .15em; } }
+.conteneur { width: 92%; max-width: $largeur-max; margin-inline: auto; }
