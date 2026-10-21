@@ -360,3 +360,27 @@ main {
   text-transform: uppercase;
   margin: 0;
 }
+
+.message {
+  margin: 0;
+  color: #b8aea2;
+}
+.message--erreur {
+  padding: 1rem;
+  border: 1px solid #ff5a1f;
+  border-radius: 0.5rem;
+  color: #f4efe8;
+}
+
+.achat__champs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.achat__champs:disabled {
+  opacity: 0.5;
+}

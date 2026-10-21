@@ -39,3 +39,9 @@
     &:last-child { border-bottom: 0; } }
   dt { color: $discret; } dd { margin: 0; font-weight: bold; } }
 .soiree__theme { color: $accent; text-transform: uppercase; margin: 0; }
+
+// Messages (chargement, liste vide, erreurs de l'API) et formulaire de réservation
+.message { margin: 0; color: $discret;
+  &--erreur { padding: $espace; border: 1px solid $accent; border-radius: $rayon; color: $texte; } }
+.achat__champs { @include flex(column, $espace); margin: 0; padding: 0; border: 0;
+  &:disabled { opacity: .5; } }

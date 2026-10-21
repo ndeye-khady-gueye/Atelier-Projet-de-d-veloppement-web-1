@@ -31,33 +31,54 @@
       <label for="filtre-style">Style</label>
       <select id="filtre-style" name="style">
         <option value="">Tous les styles</option>
-        <option value="1">blues rock</option>
       </select>
     </div>
     <button class="bouton" type="submit">Filtrer</button>
   </form>
 
-  <section id="liste-spectacles" class="liste-spectacles" aria-label="Liste des spectacles">
-    <article class="carte-spectacle">
-      <a class="carte-spectacle__lien" href="soiree.html?id=1">
-        <picture>
-          <img src="img/spectacles/1.jpg" alt="Delta Roots en concert" width="640" height="360" loading="lazy">
-        </picture>
-        <div class="carte-spectacle__corps">
-          <h2 class="carte-spectacle__titre">Delta Roots</h2>
-          <p class="carte-spectacle__date"><time datetime="2027-06-12T20:30">12 juin 2027 · 20h30</time></p>
-          <p class="etiquette">blues rock</p>
-        </div>
-      </a>
-    </article>
+  <!-- rempli par js/programme.js (fetch /spectacles + template tpl-spectacles) -->
+  <section id="liste-spectacles" class="liste-spectacles" aria-label="Liste des spectacles" aria-live="polite">
+    <p class="message">Chargement du programme…</p>
   </section>
 
-  <nav class="pagination" aria-label="Pagination">
-    <a class="bouton bouton--secondaire" href="#" aria-disabled="true">Précédent</a>
-    <span>Page 1 / 2</span>
-    <a class="bouton bouton--secondaire" href="#">Suivant</a>
-  </nav>
+  <nav class="pagination" id="pagination" aria-label="Pagination"></nav>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+
+<!-- Templates Handlebars (la carte d'exemple de la maquette, avec des {{ }} à la place des données) -->
+<script id="tpl-spectacles" type="text/x-handlebars-template">
+  {{#each spectacles}}
+  <article class="carte-spectacle">
+    <a class="carte-spectacle__lien" href="soiree.html?id={{soireeId}}">
+      <picture>
+        <img src="{{image}}" alt="{{titre}} en concert" width="640" height="360" loading="lazy">
+      </picture>
+      <div class="carte-spectacle__corps">
+        <h2 class="carte-spectacle__titre">{{titre}}</h2>
+        <p class="carte-spectacle__date"><time datetime="{{date}}T{{horaire}}">{{dateTexte}} · {{heureTexte}}</time></p>
+        <p class="etiquette">{{style}}</p>
+      </div>
+    </a>
+  </article>
+  {{else}}
+  <p class="message">Aucun spectacle ne correspond à ces critères.</p>
+  {{/each}}
+</script>
+
+<script id="tpl-pagination" type="text/x-handlebars-template">
+  {{#if precedent}}<a class="bouton bouton--secondaire" href="{{precedent}}">Précédent</a>
+  {{else}}<a class="bouton bouton--secondaire" aria-disabled="true">Précédent</a>{{/if}}
+  <span>Page {{page}} / {{pages}}</span>
+  {{#if suivant}}<a class="bouton bouton--secondaire" href="{{suivant}}">Suivant</a>
+  {{else}}<a class="bouton bouton--secondaire" aria-disabled="true">Suivant</a>{{/if}}
+</script>
+
+<script id="tpl-styles" type="text/x-handlebars-template">
+  <option value="">Tous les styles</option>
+  {{#each styles}}<option value="{{id}}"{{#if choisi}} selected{{/if}}>{{libelle}}</option>{{/each}}
+</script>
+
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/programme.js"></script>
 </body>
 </html>
