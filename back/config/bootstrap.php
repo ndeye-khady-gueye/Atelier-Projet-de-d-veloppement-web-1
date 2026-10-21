@@ -16,7 +16,6 @@ $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
-$app->add(CorsMiddleware::class);
 
 $errorMiddleware = $app->addErrorMiddleware(
     (bool) $container->get('settings')['displayErrorDetails'],
@@ -26,6 +25,10 @@ $errorMiddleware = $app->addErrorMiddleware(
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->registerErrorRenderer('application/json', JsonErrorRenderer::class);
 $errorHandler->forceContentType('application/json');
+
+// Ajouté en dernier = exécuté en premier : les en-têtes CORS sont aussi posés
+// sur les réponses d'erreur (404, 400, 500) produites par le middleware d'erreurs.
+$app->add(CorsMiddleware::class);
 
 (require __DIR__ . '/routes.php')($app);
 
