@@ -1,14 +1,22 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-.entete { background: #000; border-bottom: .2em solid $accent;
+// Dégradés de l'en-tête (ambiance scène de concert)
+$degrade-entete: linear-gradient(100deg, #0b0908 0%, #2a0f2e 45%, #5c1a3a 75%, #8a2a1f 100%);
+$degrade-logo: linear-gradient(90deg, #ffc247 0%, #ff5a1f 35%, #ff2d75 62%);
+
+.entete { background: $degrade-entete; box-shadow: 0 .25em 1em rgba(0, 0, 0, .5);
   &__barre { @include flex(row, $espace, center); flex-wrap: wrap; justify-content: space-between; padding-block: .75em; }
-  &__logo { font: 1.6rem Impact, sans-serif; text-decoration: none; span { color: $accent; } }
+  // « NRV » en dégradé, « .net » en blanc uni
+  &__logo { font: 1.6rem Impact, sans-serif; text-decoration: none; color: transparent;
+    background: $degrade-logo; -webkit-background-clip: text; background-clip: text;
+    span { -webkit-text-fill-color: #fff; color: #fff; } }
 }
 .menu { @include flex(row, .25em); list-style: none; margin: 0; padding: 0;
   a { display: block; @include cible-tactile; text-decoration: none; border-radius: $rayon;
     &[aria-current="page"] { background: $accent; color: #111; }
-    @media (hover: hover) { &:hover { background: $bordure; } } }
+    // texte blanc au survol pour qu'il reste lisible sur le fond gris
+    @media (hover: hover) { &:hover { background: $bordure; color: #fff; } } }
 }
 main { padding-block: $espace 3rem; }
 .pied { padding-block: 1.5rem; text-align: center; color: $discret; border-top: 1px solid $bordure; }
