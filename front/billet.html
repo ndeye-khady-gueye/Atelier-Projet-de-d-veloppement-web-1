@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Billet – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <!-- rempli par js/billet.js (fetch /billets/{token} + template tpl-billet) -->
+  <article class="billet" id="billet" aria-live="polite">
+    <p>Chargement du billet…</p>
+  </article>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : le billet (maquette d'André) -->
+<script id="tpl-billet" type="text/x-handlebars-template">
+    <h1>NRV.net – Billet</h1>
+    <dl>
+      <div><dt>Acheteur</dt><dd>{{acheteur}}</dd></div>
+      <div><dt>Référence</dt><dd>{{reference}}</dd></div>
+      <div><dt>Soirée</dt><dd>{{soiree.nom}}</dd></div>
+      <div><dt>Date et heure</dt><dd><time datetime="{{soiree.date}}T{{soiree.horaire}}">{{dateTexte}} · {{heureTexte}}</time></dd></div>
+      <div><dt>Lieu</dt><dd>{{soiree.lieu}}</dd></div>
+      <div><dt>Tarif</dt><dd>{{categorieTexte}} · {{prixTexte}}</dd></div>
+    </dl>
+    <p class="billet__code" aria-label="Code du billet">{{reference}}</p>
+    <button class="bouton no-print" type="button" id="btn-imprimer">Imprimer</button>
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/billet.js"></script>
+</body>
+</html>

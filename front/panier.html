@@ -20,13 +20,44 @@
   </div>
 </header>
 <main class="conteneur">
-  <h1>Panier</h1>
-  <section class="soiree__tarifs" aria-labelledby="titre-bientot">
-    <h2 id="titre-bientot">Disponible prochainement</h2>
-    <p>Le panier et l'achat de billets (tarif normal, réduit et pass 3 jours) arrivent dans la prochaine version de NRV.net.</p>
-    <p><a class="bouton" href="index.html">Voir le programme</a></p>
-  </section>
+  <h1>Mon panier</h1>
+  <div class="panier">
+    <!-- rempli par js/panier.js (fetch /panier + template tpl-lignes) -->
+    <section id="panier-lignes" aria-label="Lignes du panier" aria-live="polite">
+      <p class="message">Chargement du panier…</p>
+    </section>
+    <aside class="recap" aria-label="Récapitulatif">
+      <h2>Récapitulatif</h2>
+      <p>Billets : <strong id="panier-nb">0</strong></p>
+      <p class="recap__total">Total : <strong id="panier-total">0,00 €</strong></p>
+      <p class="message message--erreur" id="erreur-panier" role="alert" hidden></p>
+      <button class="bouton" type="button" id="btn-valider">Valider la commande</button>
+      <a class="bouton bouton--secondaire" href="index.html">Continuer mes achats</a>
+    </aside>
+  </div>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : une ligne du panier (maquette d'André) -->
+<script id="tpl-lignes" type="text/x-handlebars-template">
+  {{#each lignes}}
+  <article class="ligne-panier" data-ligne="{{id}}">
+    <div>
+      <h2 class="ligne-panier__titre"><a href="soiree.html?id={{soiree.id}}">{{soiree.nom}}</a></h2>
+      <p class="ligne-panier__infos"><time datetime="{{soiree.date}}T{{soiree.horaire}}">{{dateTexte}} · {{heureTexte}}</time> · Tarif {{categorieTexte}} · {{prixTexte}}</p>
+      {{#if pass}}<span class="etiquette">Pass 3 jours</span>{{/if}}
+    </div>
+    <div class="champ">
+      <label for="quantite-{{id}}">Quantité</label>
+      <input type="number" id="quantite-{{id}}" name="quantite" min="1" max="10" value="{{quantite}}"{{#if pass}} disabled{{/if}}>
+    </div>
+    <p>Sous-total : <strong>{{sousTotalTexte}}</strong></p>
+    <button class="bouton bouton--secondaire" type="button" data-supprimer="{{id}}">{{#if pass}}Supprimer le pass{{else}}Supprimer{{/if}}</button>
+  </article>
+  {{else}}
+  <p class="message">Votre panier est vide. <a href="index.html">Voir le programme</a></p>
+  {{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/panier.js"></script>
 </body>
 </html>

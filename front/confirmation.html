@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Commande payée – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <h1>Merci pour votre commande</h1>
+  <p id="resume-commande-payee" aria-live="polite">Chargement de la commande…</p>
+  <section id="liste-billets" class="liste-billets" aria-label="Vos billets">
+
+  </section>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : un billet de la commande -->
+<script id="tpl-billets" type="text/x-handlebars-template">
+  {{#each billets}}
+  <article class="billet-resume">
+    <div>
+      <h2>{{soiree}}</h2>
+      <p><time datetime="{{date}}">{{dateTexte}}</time> · Référence {{reference}}</p>
+    </div>
+    <p class="etiquette">{{categorie}}</p>
+    <a class="bouton bouton--secondaire" href="billet.html?token={{token}}">Voir le billet</a>
+  </article>
+  {{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/confirmation.js"></script>
+</body>
+</html>

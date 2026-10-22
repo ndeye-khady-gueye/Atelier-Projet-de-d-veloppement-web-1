@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suivi des soirées – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <h1>Suivi des soirées</h1>
+  <p>Recette totale : <strong id="recette-totale">–</strong></p>
+  <p class="message message--erreur" id="erreur-admin" role="alert" hidden></p>
+  <!-- rempli par js/backoffice.js (fetch /admin/soirees + template tpl-jauges) -->
+  <section id="liste-soirees-admin" aria-label="Jauge des soirées" aria-live="polite">
+    <p class="message">Chargement…</p>
+  </section>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : jauge d'une soirée (maquette d'André) -->
+<script id="tpl-jauges" type="text/x-handlebars-template">
+  {{#each soirees}}
+  <article class="soiree-admin">
+    <div>
+      <h2><a href="soiree.html?id={{id}}">{{nom}}</a></h2>
+      <p><time datetime="{{date}}">{{dateTexte}}</time> · {{lieu}}</p>
+    </div>
+    <div>
+      <progress max="{{capacite}}" value="{{places_vendues}}">{{places_vendues}} / {{capacite}}</progress>
+      <p>{{places_vendues}} / {{capacite}} places vendues · {{places_restantes}} restantes · <strong>{{taux_remplissage}} %</strong></p>
+    </div>
+    <p>Recette : <strong>{{recetteTexte}}</strong></p>
+  </article>
+  {{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/backoffice.js"></script>
+</body>
+</html>

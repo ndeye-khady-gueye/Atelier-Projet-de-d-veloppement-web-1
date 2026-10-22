@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pass 3 jours – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur page-etroite">
+  <h1>Pass 3 jours</h1>
+  <p>Trois billets pour trois soirées différentes, avec 3 % de remise : 87,30 € en tarif normal, 58,20 € en tarif réduit.</p>
+  <form class="formulaire" id="form-pass" action="#" method="post">
+    <h2>Choisissez vos 3 soirées</h2>
+    <div class="champ">
+      <label for="pass-soiree-1">Soirée 1</label>
+      <select id="pass-soiree-1" name="soirees" required><option value="">Chargement…</option></select>
+    </div>
+    <div class="champ">
+      <label for="pass-soiree-2">Soirée 2</label>
+      <select id="pass-soiree-2" name="soirees" required><option value="">Chargement…</option></select>
+    </div>
+    <div class="champ">
+      <label for="pass-soiree-3">Soirée 3</label>
+      <select id="pass-soiree-3" name="soirees" required><option value="">Chargement…</option></select>
+    </div>
+    <div class="champ">
+      <label for="pass-categorie">Tarif</label>
+      <select id="pass-categorie" name="categorie"><option value="normal">Normal – 87,30 €</option><option value="reduit">Réduit – 58,20 €</option></select>
+    </div>
+    <p class="message message--erreur" id="erreur-pass" role="alert" hidden></p>
+    <button class="bouton" type="submit">Ajouter le pass au panier</button>
+  </form>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : choix d'une soirée -->
+<script id="tpl-options-soirees" type="text/x-handlebars-template">
+  <option value="">Choisir une soirée</option>
+  {{#each soirees}}<option value="{{id}}"{{#if complet}} disabled{{/if}}>{{nom}} – {{dateTexte}}{{#if complet}} (complet){{/if}}</option>{{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/pass.js"></script>
+</body>
+</html>
