@@ -1,0 +1,5 @@
+{
+  "type": "error",
+  "code": 401,
+  "message": "Authentification requise"
+}

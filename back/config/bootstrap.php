@@ -4,7 +4,10 @@ declare(strict_types=1);
 use DI\ContainerBuilder;
 use nrv\api\errors\JsonErrorRenderer;
 use nrv\api\middlewares\CorsMiddleware;
+use nrv\api\middlewares\ServiceExceptionMiddleware;
 use Slim\Factory\AppFactory;
+
+date_default_timezone_set('Europe/Paris');
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(__DIR__ . '/settings.php');
@@ -16,6 +19,8 @@ $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
+// exceptions des services -> erreurs HTTP 400/401/403/404/409
+$app->add(ServiceExceptionMiddleware::class);
 
 $errorMiddleware = $app->addErrorMiddleware(
     (bool) $container->get('settings')['displayErrorDetails'],

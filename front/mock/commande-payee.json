@@ -1,0 +1,50 @@
+{
+  "type": "resource",
+  "commande": {
+    "id": 1,
+    "date": "2026-10-22 13:34",
+    "montant": 80,
+    "statut": "payee",
+    "nb_billets": 3,
+    "billets": [
+      {
+        "reference": "NRV-277F67BC79",
+        "soiree": "Blues Night",
+        "date": "2027-06-11",
+        "categorie": "normal",
+        "links": {
+          "self": {
+            "href": "/billets/b510c1198e1a33108c97bd6d9a53d25d5885fa4a5d58c1f8e0784523b811847a"
+          }
+        }
+      },
+      {
+        "reference": "NRV-5D22CEB887",
+        "soiree": "Blues Night",
+        "date": "2027-06-11",
+        "categorie": "normal",
+        "links": {
+          "self": {
+            "href": "/billets/88e7bf026538822055454a5ba58656d9e513b490297aabd6c99187f82b771e7d"
+          }
+        }
+      },
+      {
+        "reference": "NRV-8A858CEEDC",
+        "soiree": "Chansons Électriques",
+        "date": "2027-06-13",
+        "categorie": "reduit",
+        "links": {
+          "self": {
+            "href": "/billets/170903141514b69b2ab158293838e4cc95dfeacdb39d7cfe5bd1f22ad5d1f89e"
+          }
+        }
+      }
+    ]
+  },
+  "links": {
+    "self": {
+      "href": "/commandes/1"
+    }
+  }
+}

@@ -14,6 +14,7 @@ services:
     environment:
       NRV_DEBUG: "${NRV_DEBUG:-1}" # 0 sur docketu (fichier .env)
       NRV_CORS_ORIGIN: "*"
+      NRV_JWT_SECRET: "${NRV_JWT_SECRET:-nrv-dev-secret-a-changer-en-production}" # secret réel dans .env sur docketu
     depends_on:
       - nrv.db
     restart: unless-stopped

@@ -1,0 +1,66 @@
+{
+  "type": "collection",
+  "count": 3,
+  "recette_totale": 80,
+  "soirees": [
+    {
+      "soiree": {
+        "id": 1,
+        "nom": "Ouverture : Legends of Rock",
+        "date": "2027-06-10",
+        "lieu": "Zénith de Nancy",
+        "capacite": 6000,
+        "places_vendues": 4740,
+        "places_restantes": 1260,
+        "taux_remplissage": 79,
+        "recette": 0
+      },
+      "links": {
+        "soiree": {
+          "href": "/soirees/1"
+        }
+      }
+    },
+    {
+      "soiree": {
+        "id": 2,
+        "nom": "Blues Night",
+        "date": "2027-06-11",
+        "lieu": "L'Autre Canal",
+        "capacite": 1200,
+        "places_vendues": 926,
+        "places_restantes": 274,
+        "taux_remplissage": 77,
+        "recette": 60
+      },
+      "links": {
+        "soiree": {
+          "href": "/soirees/2"
+        }
+      }
+    },
+    {
+      "soiree": {
+        "id": 3,
+        "nom": "Metal Storm",
+        "date": "2027-06-12",
+        "lieu": "Zénith de Nancy",
+        "capacite": 6000,
+        "places_vendues": 4380,
+        "places_restantes": 1620,
+        "taux_remplissage": 73,
+        "recette": 0
+      },
+      "links": {
+        "soiree": {
+          "href": "/soirees/3"
+        }
+      }
+    }
+  ],
+  "links": {
+    "self": {
+      "href": "/admin/soirees"
+    }
+  }
+}

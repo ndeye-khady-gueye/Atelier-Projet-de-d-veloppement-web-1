@@ -1,35 +1,70 @@
 {
   "type": "resource",
   "panier": {
-    "id": 7,
     "lignes": [
       {
-        "id": 12,
-        "soiree": { "id": 1, "nom": "Blues Night", "date": "2027-06-12", "horaire": "20:00" },
+        "id": 1,
+        "soiree": {
+          "id": 2,
+          "nom": "Blues Night",
+          "date": "2027-06-11",
+          "horaire": "20:00"
+        },
         "categorie": "normal",
         "quantite": 2,
         "prix_unitaire": 30,
         "sous_total": 60,
         "pass": null,
-        "links": { "self": { "href": "/panier/lignes/12" }, "soiree": { "href": "/soirees/1" } }
+        "links": {
+          "self": {
+            "href": "/panier/lignes/1"
+          },
+          "soiree": {
+            "href": "/soirees/2"
+          }
+        }
       },
       {
-        "id": 13,
-        "soiree": { "id": 3, "nom": "Rock Legends", "date": "2027-06-15", "horaire": "20:00" },
+        "id": 2,
+        "soiree": {
+          "id": 4,
+          "nom": "Chansons Électriques",
+          "date": "2027-06-13",
+          "horaire": "20:00"
+        },
         "categorie": "reduit",
         "quantite": 1,
         "prix_unitaire": 20,
         "sous_total": 20,
         "pass": null,
-        "links": { "self": { "href": "/panier/lignes/13" }, "soiree": { "href": "/soirees/3" } }
+        "links": {
+          "self": {
+            "href": "/panier/lignes/2"
+          },
+          "soiree": {
+            "href": "/soirees/4"
+          }
+        }
       }
     ],
     "nb_billets": 3,
     "montant_total": 80
   },
   "links": {
-    "self": { "href": "/panier" },
-    "ajouter": { "href": "/panier/lignes", "method": "POST" },
-    "valider": { "href": "/panier/valider", "method": "POST" }
+    "self": {
+      "href": "/panier"
+    },
+    "ajouter": {
+      "href": "/panier/lignes",
+      "method": "POST"
+    },
+    "ajouter_pass": {
+      "href": "/panier/pass",
+      "method": "POST"
+    },
+    "valider": {
+      "href": "/panier/valider",
+      "method": "POST"
+    }
   }
 }

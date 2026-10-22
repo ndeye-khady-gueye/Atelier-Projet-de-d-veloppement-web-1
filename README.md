@@ -110,7 +110,7 @@ cd nrv
 
 # secrets du serveur (jamais versionnés)
 PASS=$(openssl rand -hex 16)
-printf "NRV_DEBUG=0\nNRV_DB_PASSWORD=%s\n" "$PASS" > .env
+printf "NRV_DEBUG=0\nNRV_DB_PASSWORD=%s\nNRV_JWT_SECRET=%s\n" "$PASS" "$(openssl rand -hex 32)" > .env
 chmod 600 .env
 cp back/config/nrv.db.ini.dist back/config/nrv.db.ini
 sed -i "s/^password = .*/password = $PASS/" back/config/nrv.db.ini
