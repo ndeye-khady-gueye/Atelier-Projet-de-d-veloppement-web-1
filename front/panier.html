@@ -23,10 +23,11 @@
   <h1>Mon panier</h1>
   <div class="panier">
     <section id="panier-lignes" aria-label="Lignes du panier">
+      <!-- Ligne avec pass (pass non nul dans l'API) : ajouter <span class="etiquette">Pass 3 jours</span> -->
       <article class="ligne-panier">
         <div>
           <h2 class="ligne-panier__titre">Blues Night</h2>
-          <p class="ligne-panier__infos"><time datetime="2027-06-12T20:00">12 juin 2027 · 20h00</time> · Tarif normal · 30 €</p>
+          <p class="ligne-panier__infos"><time datetime="2027-06-11T20:00">11 juin 2027 · 20h00</time> · Tarif normal · 30 €</p>
         </div>
         <div class="champ">
           <label for="quantite-1">Quantité</label>
@@ -40,7 +41,8 @@
       <h2>Récapitulatif</h2>
       <p>Billets : <strong id="panier-nb">3</strong></p>
       <p class="recap__total">Total : <strong id="panier-total">80 €</strong></p>
-      <a class="bouton" href="paiement.html">Valider la commande</a>
+      <p class="message message--erreur" id="erreur-panier" role="alert" hidden></p>
+      <button class="bouton" type="button" id="btn-valider">Valider la commande</button>
       <a class="bouton bouton--secondaire" href="index.html">Continuer mes achats</a>
     </aside>
   </div>

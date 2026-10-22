@@ -26,28 +26,30 @@
       <h2>Déjà inscrit ?</h2>
       <div class="champ">
         <label for="connexion-email">Email</label>
-        <input type="email" id="connexion-email" name="connexion-email" autocomplete="email" required>
+        <input type="email" id="connexion-email" name="email" autocomplete="email" required>
       </div>
       <div class="champ">
         <label for="connexion-mdp">Mot de passe</label>
-        <input type="password" id="connexion-mdp" name="connexion-mdp" autocomplete="current-password" required>
+        <input type="password" id="connexion-mdp" name="password" autocomplete="current-password" required>
       </div>
+      <p class="message message--erreur" id="erreur-connexion" role="alert" hidden></p>
       <button class="bouton" type="submit">Se connecter</button>
     </form>
     <form class="formulaire" id="form-inscription" action="#" method="post">
       <h2>Créer un compte</h2>
       <div class="champ">
         <label for="inscription-nom">Nom</label>
-        <input type="text" id="inscription-nom" name="inscription-nom" autocomplete="name" required>
+        <input type="text" id="inscription-nom" name="nom" autocomplete="name" required>
       </div>
       <div class="champ">
         <label for="inscription-email">Email</label>
-        <input type="email" id="inscription-email" name="inscription-email" autocomplete="email" required>
+        <input type="email" id="inscription-email" name="email" autocomplete="email" required>
       </div>
       <div class="champ">
         <label for="inscription-mdp">Mot de passe</label>
-        <input type="password" id="inscription-mdp" name="inscription-mdp" autocomplete="new-password" minlength="8" required>
+        <input type="password" id="inscription-mdp" name="password" autocomplete="new-password" minlength="8" required>
       </div>
+      <p class="message message--erreur" id="erreur-inscription" role="alert" hidden></p>
       <button class="bouton" type="submit">Créer mon compte</button>
     </form>
   </div>

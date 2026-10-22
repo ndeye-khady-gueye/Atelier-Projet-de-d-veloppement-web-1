@@ -39,6 +39,19 @@
   progress { width: 100%; height: 1.25em; accent-color: $accent; }
   @include from(tablette) { grid-template-columns: 1fr 2fr auto; align-items: center; gap: 1.5rem; } }
 
+// Messages d'erreur renvoyés par l'API (401, 403, 409...) : affichés par le JS
+.message { margin: 0; padding: .75em 1em; border-radius: $rayon; border-left: .35em solid $accent; background: $fond;
+  &[hidden] { display: none; }
+  &--erreur { border-color: #ff4d4d; color: #ffb3b3; }
+  &--succes { border-color: #3ecf8e; color: #b8f2d8; } }
+
+// Confirmation de commande : liste des billets
+.liste-billets { margin-block: 1.5rem; }
+.billet-resume { background: $carte; border-radius: $rayon; padding: $espace; display: grid; gap: .75em;
+  & + & { margin-top: $espace; }
+  h2, p { margin: 0; }
+  @include from(tablette) { grid-template-columns: 1fr auto auto; align-items: center; gap: 1.5rem; } }
+
 @media print {
   .entete, .pied, .no-print { display: none; }
   body { background: #fff; color: #000; }
