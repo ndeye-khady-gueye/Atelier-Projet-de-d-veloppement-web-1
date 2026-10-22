@@ -20,20 +20,27 @@
   </div>
 </header>
 <main class="conteneur">
-  <article class="billet" id="billet">
-    <h1>NRV.net – Billet</h1>
-    <dl>
-      <div><dt>Acheteur</dt><dd>Marc Dubois</dd></div>
-      <div><dt>Référence</dt><dd>NRV-277F67BC79</dd></div>
-      <div><dt>Soirée</dt><dd>Blues Night</dd></div>
-      <div><dt>Date et heure</dt><dd><time datetime="2027-06-11T20:00">11 juin 2027 · 20h00</time></dd></div>
-      <div><dt>Lieu</dt><dd>L’Autre Canal, 45 boulevard d’Austrasie, 54000 Nancy</dd></div>
-      <div><dt>Tarif</dt><dd>Normal · 30 €</dd></div>
-    </dl>
-    <p class="billet__code" aria-label="Code du billet">CODE</p>
-    <button class="bouton no-print" type="button" onclick="window.print()">Imprimer</button>
+  <!-- rempli par js/billet.js (fetch /billets/{token} + template tpl-billet) -->
+  <article class="billet" id="billet" aria-live="polite">
+    <p>Chargement du billet…</p>
   </article>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : le billet (maquette d'André) -->
+<script id="tpl-billet" type="text/x-handlebars-template">
+    <h1>NRV.net – Billet</h1>
+    <dl>
+      <div><dt>Acheteur</dt><dd>{{acheteur}}</dd></div>
+      <div><dt>Référence</dt><dd>{{reference}}</dd></div>
+      <div><dt>Soirée</dt><dd>{{soiree.nom}}</dd></div>
+      <div><dt>Date et heure</dt><dd><time datetime="{{soiree.date}}T{{soiree.horaire}}">{{dateTexte}} · {{heureTexte}}</time></dd></div>
+      <div><dt>Lieu</dt><dd>{{soiree.lieu}}</dd></div>
+      <div><dt>Tarif</dt><dd>{{categorieTexte}} · {{prixTexte}}</dd></div>
+    </dl>
+    <p class="billet__code" aria-label="Code du billet">{{reference}}</p>
+    <button class="bouton no-print" type="button" id="btn-imprimer">Imprimer</button>
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/billet.js"></script>
 </body>
 </html>

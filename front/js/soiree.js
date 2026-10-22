@@ -1,17 +1,19 @@
 // NRV.net - page « Soirée » (soiree.html?id=...)
-// Fonctionnalité 2 : détail d'une soirée (nom, thématique, date, lieu, tarifs, spectacles)
-import { api, template, afficherErreur, dateLisible, heureLisible, prixLisible } from './api.js';
+// Fonctionnalité 2 : détail d'une soirée ; fonctionnalité 6 : ajout de billets au panier
+import {
+  api, template, afficherErreur, message, majMenu, session, allerConnexion, parametre,
+  dateLisible, heureLisible, prixLisible,
+} from './api.js';
 
 const conteneur = document.getElementById('soiree');
 const tplSoiree = template('tpl-soiree');
 
 async function chargerSoiree() {
-  const id = new URLSearchParams(window.location.search).get('id');
+  const id = parametre('id');
   if (!id || !/^\d+$/.test(id)) {
     afficherErreur(conteneur, 'Soirée introuvable : aucun identifiant valide dans l\'adresse.');
     return;
   }
-
   try {
     const { soiree } = await api(`/soirees/${id}`);
     document.title = `${soiree.nom} – NRV.net`;
@@ -19,6 +21,7 @@ async function chargerSoiree() {
       ...soiree,
       dateTexte: dateLisible(soiree.date),
       heureTexte: heureLisible(soiree.horaire),
+      quantiteMax: Math.min(10, soiree.places_restantes),
       tarifs: Object.fromEntries(Object.entries(soiree.tarifs).map(([cle, prix]) => [cle, prixLisible(prix)])),
       spectacles: soiree.spectacles.map((s) => ({
         ...s,
@@ -33,14 +36,36 @@ async function chargerSoiree() {
   }
 }
 
-// L'ajout au panier (fonctionnalité 6) arrive avec l'authentification : en attendant, on l'annonce.
+// Ajout au panier : il faut être connecté (le panier est lié au compte)
 function brancherFormulaire() {
   const formulaire = document.getElementById('form-panier');
-  const message = document.getElementById('message-panier');
-  formulaire.addEventListener('submit', (evt) => {
+  const erreur = document.getElementById('erreur-ajout');
+  const statut = document.getElementById('message-ajout');
+  formulaire.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    message.textContent = 'L\'ajout au panier sera bientôt disponible.';
+    message(erreur, '');
+    if (!session()) {
+      allerConnexion();
+      return;
+    }
+    const donnees = new FormData(formulaire);
+    try {
+      const { panier } = await api('/panier/lignes', {
+        methode: 'POST',
+        corps: {
+          soiree: Number(donnees.get('soiree')),
+          categorie: donnees.get('categorie'),
+          quantite: Number(donnees.get('quantite')),
+        },
+      });
+      statut.innerHTML = `Ajouté au panier (${panier.nb_billets} billet(s), ${prixLisible(panier.montant_total)}). `
+        + '<a href="panier.html">Voir le panier</a>';
+    } catch (e) {
+      if (e.code === 401) allerConnexion();
+      else message(erreur, e.message);
+    }
   });
 }
 
+majMenu();
 chargerSoiree();

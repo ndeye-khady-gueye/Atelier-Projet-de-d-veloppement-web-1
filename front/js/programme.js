@@ -1,6 +1,6 @@
 // NRV.net - page « Programme » (index.html)
 // Fonctionnalités 1 (liste), 3 (lien vers la soirée), 4 (filtre date), 5 (filtre style) + pagination
-import { api, template, idDepuisLien, afficherErreur, dateLisible, heureLisible } from './api.js';
+import { api, template, idDepuisLien, afficherErreur, dateLisible, heureLisible, majMenu } from './api.js';
 
 const liste = document.getElementById('liste-spectacles');
 const pagination = document.getElementById('pagination');
@@ -76,6 +76,7 @@ formulaire.addEventListener('submit', (evt) => {
   window.location.href = q ? `index.html?${q}` : 'index.html';
 });
 
+majMenu();
 const filtres = lireFiltres();
 champDate.value = filtres.date;
 chargerStyles(filtres.style);

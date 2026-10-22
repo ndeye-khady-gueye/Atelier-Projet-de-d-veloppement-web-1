@@ -26,15 +26,15 @@
     <h2>Choisissez vos 3 soirées</h2>
     <div class="champ">
       <label for="pass-soiree-1">Soirée 1</label>
-      <select id="pass-soiree-1" name="soirees" required><option value="2">Blues Night – 11 juin 2027</option></select>
+      <select id="pass-soiree-1" name="soirees" required><option value="">Chargement…</option></select>
     </div>
     <div class="champ">
       <label for="pass-soiree-2">Soirée 2</label>
-      <select id="pass-soiree-2" name="soirees" required><option value="3">Metal Storm – 12 juin 2027</option></select>
+      <select id="pass-soiree-2" name="soirees" required><option value="">Chargement…</option></select>
     </div>
     <div class="champ">
       <label for="pass-soiree-3">Soirée 3</label>
-      <select id="pass-soiree-3" name="soirees" required><option value="4">Chansons Électriques – 13 juin 2027</option></select>
+      <select id="pass-soiree-3" name="soirees" required><option value="">Chargement…</option></select>
     </div>
     <div class="champ">
       <label for="pass-categorie">Tarif</label>
@@ -45,5 +45,12 @@
   </form>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : choix d'une soirée -->
+<script id="tpl-options-soirees" type="text/x-handlebars-template">
+  <option value="">Choisir une soirée</option>
+  {{#each soirees}}<option value="{{id}}"{{#if complet}} disabled{{/if}}>{{nom}} – {{dateTexte}}{{#if complet}} (complet){{/if}}</option>{{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/pass.js"></script>
 </body>
 </html>

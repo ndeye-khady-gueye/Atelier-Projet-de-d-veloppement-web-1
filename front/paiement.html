@@ -21,7 +21,7 @@
 </header>
 <main class="conteneur page-etroite">
   <h1>Paiement</h1>
-  <p id="resume-commande">Commande n° <strong>1</strong> · <strong>3</strong> billets · Total : <strong>80 €</strong></p>
+  <p id="resume-commande" aria-live="polite">Chargement de la commande…</p>
   <form class="formulaire" id="form-paiement" action="#" method="post">
     <h2>Carte bancaire (simulation)</h2>
       <div class="champ">
@@ -34,12 +34,14 @@
       </div>
       <div class="champ">
         <label for="carte-code">Code de sécurité</label>
-        <input type="text" id="carte-code" name="code" inputmode="numeric" autocomplete="cc-csc" maxlength="4" required>
+        <input type="text" id="carte-code" name="code" inputmode="numeric" autocomplete="cc-csc" maxlength="3" pattern="\d{3}" required>
       </div>
     <p class="message message--erreur" id="erreur-paiement" role="alert" hidden></p>
-    <button class="bouton" type="submit">Payer 80 €</button>
+    <button class="bouton" type="submit" id="btn-payer">Payer</button>
   </form>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/paiement.js"></script>
 </body>
 </html>

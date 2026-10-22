@@ -21,18 +21,26 @@
 </header>
 <main class="conteneur">
   <h1>Merci pour votre commande</h1>
-  <p id="resume-commande-payee">Commande n° <strong>1</strong> · Statut : <strong>payée</strong> · Total : <strong>80 €</strong></p>
+  <p id="resume-commande-payee" aria-live="polite">Chargement de la commande…</p>
   <section id="liste-billets" class="liste-billets" aria-label="Vos billets">
-    <article class="billet-resume">
-      <div>
-        <h2>Blues Night</h2>
-        <p><time datetime="2027-06-11">11 juin 2027</time> · Référence NRV-277F67BC79</p>
-      </div>
-      <p class="etiquette">normal</p>
-      <a class="bouton bouton--secondaire" href="billet.html?token=b510c1198e1a33108c97bd6d9a53d25d5885fa4a5d58c1f8e0784523b811847a">Voir le billet</a>
-    </article>
+
   </section>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+<!-- Template Handlebars : un billet de la commande -->
+<script id="tpl-billets" type="text/x-handlebars-template">
+  {{#each billets}}
+  <article class="billet-resume">
+    <div>
+      <h2>{{soiree}}</h2>
+      <p><time datetime="{{date}}">{{dateTexte}}</time> · Référence {{reference}}</p>
+    </div>
+    <p class="etiquette">{{categorie}}</p>
+    <a class="bouton bouton--secondaire" href="billet.html?token={{token}}">Voir le billet</a>
+  </article>
+  {{/each}}
+</script>
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/confirmation.js"></script>
 </body>
 </html>
