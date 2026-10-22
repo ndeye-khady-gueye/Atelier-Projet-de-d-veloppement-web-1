@@ -11,6 +11,7 @@ use nrv\api\actions\ConsulterPanierAction;
 use nrv\api\actions\HomeAction;
 use nrv\api\actions\InscriptionAction;
 use nrv\api\actions\ListerJaugesAction;
+use nrv\api\actions\ListerSoireesAction;
 use nrv\api\actions\ListerSpectaclesAction;
 use nrv\api\actions\ListerStylesAction;
 use nrv\api\actions\ModifierLignePanierAction;
@@ -30,6 +31,7 @@ return function (App $app): void {
     // programme du festival (fonctionnalités 1 à 5) : public
     $app->get('/spectacles', ListerSpectaclesAction::class)->setName('spectacles');
     $app->get('/styles', ListerStylesAction::class)->setName('styles');
+    $app->get('/soirees', ListerSoireesAction::class)->setName('soirees');
     $app->get('/soirees/{id:[0-9]+}', AfficherSoireeAction::class)->setName('soiree');
 
     // comptes

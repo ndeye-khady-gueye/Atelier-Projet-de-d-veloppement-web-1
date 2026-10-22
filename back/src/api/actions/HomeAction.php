@@ -16,6 +16,7 @@ class HomeAction extends AbstractAction
             'links' => [
                 'spectacles' => ['href' => '/spectacles'],
                 'styles' => ['href' => '/styles'],
+                'soirees' => ['href' => '/soirees'],
             ],
         ]);
     }

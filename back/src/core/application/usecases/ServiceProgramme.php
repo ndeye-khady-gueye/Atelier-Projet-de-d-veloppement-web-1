@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use nrv\core\application\dto\FiltreSpectaclesDTO;
 use nrv\core\application\dto\PageSpectaclesDTO;
 use nrv\core\application\dto\SoireeDTO;
+use nrv\core\application\dto\SoireeResumeDTO;
 use nrv\core\application\dto\SpectacleDetailDTO;
 use nrv\core\application\dto\SpectacleDTO;
 use nrv\core\application\dto\StyleDTO;
@@ -50,6 +51,11 @@ class ServiceProgramme implements ServiceProgrammeInterface
     public function listerStyles(): array
     {
         return array_map(fn ($s) => StyleDTO::fromEntity($s), $this->styleRepository->findAll());
+    }
+
+    public function listerSoirees(): array
+    {
+        return array_map(fn ($s) => SoireeResumeDTO::fromEntity($s), $this->soireeRepository->findAll());
     }
 
     public function afficherSoiree(int $id): SoireeDTO

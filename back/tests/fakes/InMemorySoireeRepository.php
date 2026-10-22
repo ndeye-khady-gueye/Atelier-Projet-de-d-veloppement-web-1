@@ -25,6 +25,11 @@ final class InMemorySoireeRepository implements SoireeRepositoryInterface
         throw new EntityNotFoundException("Soirée $id introuvable");
     }
 
+    public function findAll(): array
+    {
+        return array_values($this->soirees);
+    }
+
     public function findAllJauges(): array
     {
         return array_map(fn (Soiree $s) => new JaugeSoiree(

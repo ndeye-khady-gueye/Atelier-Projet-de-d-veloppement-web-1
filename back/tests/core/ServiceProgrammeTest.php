@@ -126,6 +126,16 @@ final class ServiceProgrammeTest extends TestCase
         $this->service->afficherSoiree(99);
     }
 
+    public function testListeDesSoireesAvecPlacesRestantes(): void
+    {
+        $soirees = $this->service->listerSoirees();
+
+        $this->assertCount(2, $soirees);
+        $this->assertSame('Blues Night', $soirees[0]->nom);
+        $this->assertSame(60, $soirees[0]->placesRestantes);
+        $this->assertTrue($soirees[1]->toArray()['complet']);
+    }
+
     public function testListeDesStyles(): void
     {
         $styles = $this->service->listerStyles();

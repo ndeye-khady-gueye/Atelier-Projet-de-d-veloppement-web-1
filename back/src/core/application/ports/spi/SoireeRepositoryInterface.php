@@ -12,6 +12,9 @@ interface SoireeRepositoryInterface
     /** @throws EntityNotFoundException */
     public function findById(int $id): Soiree;
 
+    /** @return Soiree[] toutes les soirées, par date */
+    public function findAll(): array;
+
     /** @return JaugeSoiree[] toutes les soirées avec places vendues et recette, par date */
     public function findAllJauges(): array;
 }

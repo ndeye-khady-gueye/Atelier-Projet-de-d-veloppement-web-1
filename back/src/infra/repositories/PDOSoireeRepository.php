@@ -17,6 +17,17 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
     {
     }
 
+    public function findAll(): array
+    {
+        $rows = $this->pdo->query(
+            'SELECT so.id, so.nom, so.thematique, so.date_debut, so.places_vendues,
+                    l.id AS lieu_id, l.nom AS lieu_nom, l.adresse, l.nb_places
+             FROM soiree so JOIN lieu l ON l.id = so.lieu_id
+             ORDER BY so.date_debut'
+        )->fetchAll();
+        return array_map(fn (array $r) => $this->hydrater($r), $rows);
+    }
+
     public function findById(int $id): Soiree
     {
         $stmt = $this->pdo->prepare(
@@ -31,6 +42,11 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
         if ($r === false) {
             throw new EntityNotFoundException("Soirée $id introuvable");
         }
+        return $this->hydrater($r);
+    }
+
+    private function hydrater(array $r): Soiree
+    {
         return new Soiree(
             (int) $r['id'],
             $r['nom'],
