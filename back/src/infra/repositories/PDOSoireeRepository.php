@@ -5,6 +5,7 @@ namespace nrv\infra\repositories;
 
 use DateTimeImmutable;
 use nrv\core\application\ports\spi\SoireeRepositoryInterface;
+use nrv\core\domain\entities\JaugeSoiree;
 use nrv\core\domain\entities\Lieu;
 use nrv\core\domain\entities\Soiree;
 use nrv\core\domain\exceptions\EntityNotFoundException;
@@ -38,5 +39,25 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
             new Lieu((int) $r['lieu_id'], $r['lieu_nom'], $r['adresse'], (int) $r['nb_places']),
             (int) $r['places_vendues']
         );
+    }
+
+    public function findAllJauges(): array
+    {
+        $rows = $this->pdo->query(
+            'SELECT so.id, so.nom, so.date_debut, so.places_vendues, l.nom AS lieu, l.nb_places,
+                    COALESCE((SELECT SUM(b.prix) FROM billet b WHERE b.soiree_id = so.id), 0) AS recette
+             FROM soiree so
+             JOIN lieu l ON l.id = so.lieu_id
+             ORDER BY so.date_debut'
+        )->fetchAll();
+        return array_map(fn (array $r) => new JaugeSoiree(
+            (int) $r['id'],
+            $r['nom'],
+            new DateTimeImmutable($r['date_debut']),
+            $r['lieu'],
+            (int) $r['nb_places'],
+            (int) $r['places_vendues'],
+            (float) $r['recette']
+        ), $rows);
     }
 }

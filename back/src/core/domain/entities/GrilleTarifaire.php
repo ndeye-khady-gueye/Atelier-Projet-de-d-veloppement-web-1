@@ -36,6 +36,12 @@ final class GrilleTarifaire
         };
     }
 
+    /** Prix d'un billet : au tarif de la catégorie, ou au tiers du prix du pass 3 jours. */
+    public function prixUnitaire(string $categorie, bool $pass = false): float
+    {
+        return $pass ? round($this->prixPass($categorie) / 3, 2) : $this->prix($categorie);
+    }
+
     /** Prix d'un pass 3 jours : 3 billets de la catégorie, remise déduite. */
     public function prixPass(string $categorie): float
     {

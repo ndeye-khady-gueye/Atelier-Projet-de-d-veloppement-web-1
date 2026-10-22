@@ -1,0 +1,20 @@
+{
+  "type": "resource",
+  "commande": {
+    "id": 1,
+    "date": "2026-10-22 13:34",
+    "montant": 80,
+    "statut": "en_attente",
+    "nb_billets": 3,
+    "billets": []
+  },
+  "links": {
+    "self": {
+      "href": "/commandes/1"
+    },
+    "payer": {
+      "href": "/commandes/1/paiement",
+      "method": "POST"
+    }
+  }
+}

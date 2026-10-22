@@ -1,7 +1,7 @@
 -- NRV.net - schéma PostgreSQL (brouillon proposé par A, à valider et compléter par C)
 -- Les noms de tables et de colonnes sont ceux utilisés par les repositories PDO du backend.
 
-DROP TABLE IF EXISTS billet, ligne_panier, panier, commande, utilisateur,
+DROP TABLE IF EXISTS billet, ligne_commande, ligne_panier, panier, commande, utilisateur,
     image, spectacle_artiste, artiste, spectacle, soiree, style, lieu CASCADE;
 
 CREATE TABLE lieu (
@@ -82,6 +82,16 @@ CREATE TABLE commande (
     date_commande  TIMESTAMP NOT NULL DEFAULT NOW(),
     montant_total  NUMERIC(8, 2) NOT NULL,
     statut         VARCHAR(16) NOT NULL DEFAULT 'en_attente' CHECK (statut IN ('en_attente', 'payee'))
+);
+
+CREATE TABLE ligne_commande (
+    id            SERIAL PRIMARY KEY,
+    commande_id   INTEGER NOT NULL REFERENCES commande(id) ON DELETE CASCADE,
+    soiree_id     INTEGER NOT NULL REFERENCES soiree(id),
+    categorie     VARCHAR(16) NOT NULL CHECK (categorie IN ('normal', 'reduit')),
+    quantite      INTEGER NOT NULL CHECK (quantite > 0),
+    prix_unitaire NUMERIC(8, 2) NOT NULL,   -- prix figé au moment de la validation du panier
+    pass_id       VARCHAR(36)
 );
 
 CREATE TABLE billet (

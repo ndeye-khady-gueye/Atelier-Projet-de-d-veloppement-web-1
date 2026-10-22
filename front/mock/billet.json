@@ -1,11 +1,11 @@
 {
   "type": "resource",
   "billet": {
-    "reference": "NRV-2027-000123",
-    "acheteur": "Camille Martin",
+    "reference": "NRV-277F67BC79",
+    "acheteur": "Marc Dubois",
     "soiree": {
       "nom": "Blues Night",
-      "date": "2027-06-12",
+      "date": "2027-06-11",
       "horaire": "20:00",
       "lieu": "L'Autre Canal, 45 boulevard d'Austrasie, 54000 Nancy"
     },
@@ -13,6 +13,8 @@
     "prix": 30
   },
   "links": {
-    "self": { "href": "/billets/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08" }
+    "self": {
+      "href": "/billets/b510c1198e1a33108c97bd6d9a53d25d5885fa4a5d58c1f8e0784523b811847a"
+    }
   }
 }
