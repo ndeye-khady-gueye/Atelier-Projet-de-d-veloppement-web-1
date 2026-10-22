@@ -20,12 +20,30 @@
   </div>
 </header>
 <main class="conteneur">
-  <h1>Panier</h1>
-  <section class="soiree__tarifs" aria-labelledby="titre-bientot">
-    <h2 id="titre-bientot">Disponible prochainement</h2>
-    <p>Le panier et l'achat de billets (tarif normal, réduit et pass 3 jours) arrivent dans la prochaine version de NRV.net.</p>
-    <p><a class="bouton" href="index.html">Voir le programme</a></p>
-  </section>
+  <h1>Mon panier</h1>
+  <div class="panier">
+    <section id="panier-lignes" aria-label="Lignes du panier">
+      <article class="ligne-panier">
+        <div>
+          <h2 class="ligne-panier__titre">Blues Night</h2>
+          <p class="ligne-panier__infos"><time datetime="2027-06-12T20:00">12 juin 2027 · 20h00</time> · Tarif normal · 30 €</p>
+        </div>
+        <div class="champ">
+          <label for="quantite-1">Quantité</label>
+          <input type="number" id="quantite-1" name="quantite" min="1" value="2">
+        </div>
+        <p>Sous-total : <strong>60 €</strong></p>
+        <button class="bouton bouton--secondaire" type="button">Supprimer</button>
+      </article>
+    </section>
+    <aside class="recap" aria-label="Récapitulatif">
+      <h2>Récapitulatif</h2>
+      <p>Billets : <strong id="panier-nb">3</strong></p>
+      <p class="recap__total">Total : <strong id="panier-total">80 €</strong></p>
+      <a class="bouton" href="paiement.html">Valider la commande</a>
+      <a class="bouton bouton--secondaire" href="index.html">Continuer mes achats</a>
+    </aside>
+  </div>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
 </body>

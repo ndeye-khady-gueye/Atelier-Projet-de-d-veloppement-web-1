@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Billet – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <article class="billet" id="billet">
+    <h1>NRV.net – Billet</h1>
+    <dl>
+      <div><dt>Acheteur</dt><dd>Camille Martin</dd></div>
+      <div><dt>Référence</dt><dd>NRV-2027-000123</dd></div>
+      <div><dt>Soirée</dt><dd>Blues Night</dd></div>
+      <div><dt>Date et heure</dt><dd><time datetime="2027-06-12T20:00">12 juin 2027 · 20h00</time></dd></div>
+      <div><dt>Lieu</dt><dd>L’Autre Canal, Nancy</dd></div>
+      <div><dt>Tarif</dt><dd>Normal · 30 €</dd></div>
+    </dl>
+    <p class="billet__code" aria-label="Code du billet">CODE</p>
+    <button class="bouton no-print" type="button" onclick="window.print()">Imprimer</button>
+  </article>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+</body>
+</html>

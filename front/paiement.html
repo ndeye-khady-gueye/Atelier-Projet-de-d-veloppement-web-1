@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paiement – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur page-etroite">
+  <h1>Paiement</h1>
+  <p id="resume-commande">Commande n° <strong>15</strong> · Total : <strong>80 €</strong></p>
+  <form class="formulaire" id="form-paiement" action="#" method="post">
+    <h2>Carte bancaire (simulation)</h2>
+      <div class="champ">
+        <label for="carte-numero">Numéro de carte</label>
+        <input type="text" id="carte-numero" name="carte-numero" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required>
+      </div>
+      <div class="champ">
+        <label for="carte-expiration">Date d’expiration</label>
+        <input type="text" id="carte-expiration" name="carte-expiration" autocomplete="cc-exp" placeholder="MM/AA" required>
+      </div>
+      <div class="champ">
+        <label for="carte-code">Code de sécurité</label>
+        <input type="text" id="carte-code" name="carte-code" inputmode="numeric" autocomplete="cc-csc" maxlength="4" required>
+      </div>
+    <button class="bouton" type="submit">Payer 80 €</button>
+  </form>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+</body>
+</html>

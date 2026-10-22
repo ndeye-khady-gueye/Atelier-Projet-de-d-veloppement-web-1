@@ -1,0 +1,46 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Formulaires (connexion, inscription, paiement)
+.formulaire { @include flex(column, $espace); background: $carte; padding: $espace; border-radius: $rayon;
+  h2 { margin: 0; } }
+.deux-colonnes { @include grille(1, 1.5rem); margin-block: 1.5rem;
+  @include from(tablette) { @include grille(2, 1.5rem); } }
+.page-etroite { max-width: 32em; margin-inline: auto; }
+
+// Panier : lignes + récapitulatif (2 colonnes dès le bureau)
+.panier { display: grid; gap: 1.5rem; margin-block: 1.5rem;
+  @include from(bureau) { grid-template-columns: 2fr 1fr; align-items: start; } }
+.ligne-panier { background: $carte; border-radius: $rayon; padding: $espace; display: grid; gap: .75em;
+  & + & { margin-top: $espace; }
+  @include from(tablette) { grid-template-columns: 1fr auto auto auto; align-items: center; }
+  &__titre { margin: 0; }
+  &__infos { margin: 0; color: $discret; }
+  p { margin: 0; } }
+.recap { @include flex(column, $espace); background: $carte; padding: $espace; border-radius: $rayon;
+  h2, p { margin: 0; }
+  &__total { font-size: 1.4rem; }
+  @include from(bureau) { position: sticky; top: 1em; } }
+
+// Billet imprimable
+.billet { max-width: 30em; margin: 1.5rem auto; padding: 1.5rem; background: #fff; color: #111;
+  border: .2em dashed $accent; border-radius: $rayon;
+  h1 { margin-top: 0; }
+  dl { display: grid; gap: .5em; margin: 0 0 $espace; }
+  dt { font-size: .85rem; text-transform: uppercase; color: #555; }
+  dd { margin: 0; font-weight: bold; }
+  &__code { display: grid; place-items: center; width: 8em; aspect-ratio: 1; margin: 0 auto $espace;
+    border: .2em solid #111; font-weight: bold; } }
+
+// Back-office : jauge par soirée
+.soiree-admin { background: $carte; border-radius: $rayon; padding: $espace; display: grid; gap: .5em;
+  & + & { margin-top: $espace; }
+  h2, p { margin: 0; }
+  progress { width: 100%; height: 1.25em; accent-color: $accent; }
+  @include from(tablette) { grid-template-columns: 1fr 2fr auto; align-items: center; gap: 1.5rem; } }
+
+@media print {
+  .entete, .pied, .no-print { display: none; }
+  body { background: #fff; color: #000; }
+  .billet { border: 1px solid #000; margin: 0 auto; }
+}

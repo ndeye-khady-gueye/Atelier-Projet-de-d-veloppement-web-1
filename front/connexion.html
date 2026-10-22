@@ -21,11 +21,36 @@
 </header>
 <main class="conteneur">
   <h1>Connexion</h1>
-  <section class="soiree__tarifs" aria-labelledby="titre-bientot">
-    <h2 id="titre-bientot">Disponible prochainement</h2>
-    <p>La création de compte et la connexion arrivent dans la prochaine version de NRV.net. Elles permettront d'acheter des billets et de les retrouver.</p>
-    <p><a class="bouton" href="index.html">Voir le programme</a></p>
-  </section>
+  <div class="deux-colonnes">
+    <form class="formulaire" id="form-connexion" action="#" method="post">
+      <h2>Déjà inscrit ?</h2>
+      <div class="champ">
+        <label for="connexion-email">Email</label>
+        <input type="email" id="connexion-email" name="connexion-email" autocomplete="email" required>
+      </div>
+      <div class="champ">
+        <label for="connexion-mdp">Mot de passe</label>
+        <input type="password" id="connexion-mdp" name="connexion-mdp" autocomplete="current-password" required>
+      </div>
+      <button class="bouton" type="submit">Se connecter</button>
+    </form>
+    <form class="formulaire" id="form-inscription" action="#" method="post">
+      <h2>Créer un compte</h2>
+      <div class="champ">
+        <label for="inscription-nom">Nom</label>
+        <input type="text" id="inscription-nom" name="inscription-nom" autocomplete="name" required>
+      </div>
+      <div class="champ">
+        <label for="inscription-email">Email</label>
+        <input type="email" id="inscription-email" name="inscription-email" autocomplete="email" required>
+      </div>
+      <div class="champ">
+        <label for="inscription-mdp">Mot de passe</label>
+        <input type="password" id="inscription-mdp" name="inscription-mdp" autocomplete="new-password" minlength="8" required>
+      </div>
+      <button class="bouton" type="submit">Créer mon compte</button>
+    </form>
+  </div>
 </main>
 <footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
 </body>
