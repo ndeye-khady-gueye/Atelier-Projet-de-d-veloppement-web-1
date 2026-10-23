@@ -26,7 +26,9 @@
 .champ { display: flex; flex-direction: column; gap: .25em;
   label { font-weight: bold; }
   input, select { @include cible-tactile; font: inherit; color: $texte; background: $fond;
-    border: 1px solid $bordure; border-radius: $rayon; width: 100%; } }
+    border: 1px solid $bordure; border-radius: $rayon; width: 100%;
+    color-scheme: dark; }   // flèches, calendrier et liste déroulante natifs en thème sombre
+  input[type="number"] { text-align: center; font-weight: bold; } }
 .achat { @include flex(column, $espace); }
 
 .bouton { @include cible-tactile; display: inline-block; font: inherit; font-weight: bold; text-align: center;

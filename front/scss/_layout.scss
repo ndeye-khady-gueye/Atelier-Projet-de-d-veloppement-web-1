@@ -8,7 +8,8 @@ $degrade-logo: linear-gradient(90deg, #ffc247 0%, #ff5a1f 35%, #ff2d75 62%);
 .entete { background: $degrade-entete; box-shadow: 0 .25em 1em rgba(0, 0, 0, .5);
   &__barre { @include flex(row, $espace, center); flex-wrap: wrap; justify-content: space-between; padding-block: .75em; }
   // « NRV » en dégradé, « .net » en blanc uni
-  &__logo { font: 1.6rem Impact, sans-serif; text-decoration: none; color: transparent;
+  &__logo { font: 2.1rem Impact, sans-serif; letter-spacing: .02em; text-decoration: none; color: transparent;
+    @include from(tablette) { font-size: 2.6rem; }
     background: $degrade-logo; -webkit-background-clip: text; background-clip: text;
     span { -webkit-text-fill-color: #fff; color: #fff; } }
 }

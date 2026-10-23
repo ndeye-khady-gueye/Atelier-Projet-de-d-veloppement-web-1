@@ -8,6 +8,25 @@
   @include from(tablette) { @include grille(2, 1.5rem); } }
 .page-etroite { max-width: 32em; margin-inline: auto; }
 
+// Onglets Connexion / Inscription, sans JavaScript : un bouton radio caché par onglet.
+// Le formulaire dont le radio est coché (:checked) est affiché, les autres sont masqués.
+$onglets: connexion, inscription;
+.onglets { position: relative; margin-block: 1.5rem;
+  &__radio { position: absolute; opacity: 0; pointer-events: none; }   // reste focalisable au clavier
+  &__barre { @include flex(row, .25em); }
+  &__barre label { flex: 1; display: grid; place-items: center; @include cible-tactile; cursor: pointer;
+    font-weight: bold; color: $discret; background: $fond; border: 1px solid $bordure; border-bottom: 0;
+    border-radius: $rayon $rayon 0 0; }
+  .formulaire { display: none; border-radius: 0 0 $rayon $rayon; }
+  @each $nom in $onglets {
+    #onglet-#{$nom}:checked ~ #form-#{$nom} { display: flex; }
+    #onglet-#{$nom}:checked ~ .onglets__barre label[for="onglet-#{$nom}"] {
+      color: $texte; background: $carte; border-top: .2em solid $accent; }
+    #onglet-#{$nom}:focus-visible ~ .onglets__barre label[for="onglet-#{$nom}"] {
+      outline: .15em solid $accent; outline-offset: .15em; }
+  }
+}
+
 // Panier : lignes + récapitulatif (2 colonnes dès le bureau)
 .panier { display: grid; gap: 1.5rem; margin-block: 1.5rem;
   @include from(bureau) { grid-template-columns: 2fr 1fr; align-items: start; } }
@@ -41,7 +60,7 @@
 
 // Messages d'erreur renvoyés par l'API (401, 403, 409...) : affichés par le JS
 .message { margin: 0; padding: .75em 1em; border-radius: $rayon; border-left: .35em solid $accent; background: $fond;
-  &[hidden] { display: none; }
+  &[hidden], &:empty { display: none; }   // :empty = pas encore de texte (évite un cadre vide)
   &--erreur { border-color: #ff4d4d; color: #ffb3b3; }
   &--succes { border-color: #3ecf8e; color: #b8f2d8; } }
 

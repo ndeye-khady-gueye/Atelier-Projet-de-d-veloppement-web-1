@@ -68,9 +68,17 @@ a:focus-visible {
   padding-block: 0.75em;
 }
 .entete__logo {
-  font: 1.6rem Impact, sans-serif;
+  font: 2.1rem Impact, sans-serif;
+  letter-spacing: 0.02em;
   text-decoration: none;
   color: transparent;
+}
+@media screen and (min-width: 40em) {
+  .entete__logo {
+    font-size: 2.6rem;
+  }
+}
+.entete__logo {
   background: linear-gradient(90deg, #ffc247 0%, #ff5a1f 35%, #ff2d75 62%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -304,6 +312,11 @@ main {
   border: 1px solid #3a332d;
   border-radius: 0.5rem;
   width: 100%;
+  color-scheme: dark;
+}
+.champ input[type=number] {
+  text-align: center;
+  font-weight: bold;
 }
 
 .achat {
@@ -397,6 +410,64 @@ main {
 .page-etroite {
   max-width: 32em;
   margin-inline: auto;
+}
+
+.onglets {
+  position: relative;
+  margin-block: 1.5rem;
+}
+.onglets__radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onglets__barre {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
+  align-items: stretch;
+}
+.onglets__barre label {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 2.75em;
+  padding: 0.5em 1.25em;
+  cursor: pointer;
+  font-weight: bold;
+  color: #b8aea2;
+  background: #14110f;
+  border: 1px solid #3a332d;
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.onglets .formulaire {
+  display: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+.onglets #onglet-connexion:checked ~ #form-connexion {
+  display: flex;
+}
+.onglets #onglet-connexion:checked ~ .onglets__barre label[for=onglet-connexion] {
+  color: #f4efe8;
+  background: #211d1a;
+  border-top: 0.2em solid #ff5a1f;
+}
+.onglets #onglet-connexion:focus-visible ~ .onglets__barre label[for=onglet-connexion] {
+  outline: 0.15em solid #ff5a1f;
+  outline-offset: 0.15em;
+}
+.onglets #onglet-inscription:checked ~ #form-inscription {
+  display: flex;
+}
+.onglets #onglet-inscription:checked ~ .onglets__barre label[for=onglet-inscription] {
+  color: #f4efe8;
+  background: #211d1a;
+  border-top: 0.2em solid #ff5a1f;
+}
+.onglets #onglet-inscription:focus-visible ~ .onglets__barre label[for=onglet-inscription] {
+  outline: 0.15em solid #ff5a1f;
+  outline-offset: 0.15em;
 }
 
 .panier {
@@ -529,7 +600,7 @@ main {
   border-left: 0.35em solid #ff5a1f;
   background: #14110f;
 }
-.message[hidden] {
+.message[hidden], .message:empty {
   display: none;
 }
 .message--erreur {
