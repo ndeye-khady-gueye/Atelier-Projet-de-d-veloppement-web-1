@@ -9,13 +9,20 @@ function destination(auth) {
   return auth.utilisateur.role === 'admin' ? 'backoffice.html' : 'panier.html';
 }
 
-function brancher(idFormulaire, idErreur, route) {
+/** verifier(corps) : contrôle facultatif avant l'envoi ; renvoie un message d'erreur ou ''. */
+function brancher(idFormulaire, idErreur, route, verifier) {
   const formulaire = document.getElementById(idFormulaire);
   const erreur = document.getElementById(idErreur);
   formulaire.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     message(erreur, '');
     const corps = Object.fromEntries(new FormData(formulaire));
+    const probleme = verifier?.(corps);
+    if (probleme) {
+      message(erreur, probleme);
+      return;
+    }
+    delete corps.password_confirmation;   // sert seulement à la vérification, pas envoyé à l'API
     try {
       const auth = await api(route, { methode: 'POST', corps });
       ouvrirSession(auth);
@@ -27,5 +34,6 @@ function brancher(idFormulaire, idErreur, route) {
 }
 
 brancher('form-connexion', 'erreur-connexion', '/auth/signin');
-brancher('form-inscription', 'erreur-inscription', '/auth/register');
+brancher('form-inscription', 'erreur-inscription', '/auth/register',
+  (c) => (c.password !== c.password_confirmation ? 'Les deux mots de passe ne sont pas identiques.' : ''));
 majMenu();

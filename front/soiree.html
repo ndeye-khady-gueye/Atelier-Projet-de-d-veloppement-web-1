@@ -61,6 +61,10 @@
           <option value="reduit">Réduit – {{tarifs.reduit}}</option>
         </select>
       </div>
+      <div class="case" id="bloc-justificatif" hidden>
+        <input type="checkbox" id="justificatif-reduit" name="justificatif_reduit">
+        <label for="justificatif-reduit">Je certifie avoir droit au tarif réduit (carte étudiante ou justificatif) et pouvoir le présenter à l'entrée.</label>
+      </div>
       <div class="champ">
         <label for="quantite">Quantité</label>
         <input type="number" id="quantite" name="quantite" min="1" max="{{quantiteMax}}" value="1"{{#if complet}} disabled{{/if}}>

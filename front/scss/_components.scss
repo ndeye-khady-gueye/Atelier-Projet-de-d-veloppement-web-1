@@ -41,3 +41,16 @@
     &:last-child { border-bottom: 0; } }
   dt { color: $discret; } dd { margin: 0; font-weight: bold; } }
 .soiree__theme { color: $accent; text-transform: uppercase; margin: 0; }
+
+// Case à cocher avec texte (justificatif du tarif réduit)
+.case { display: flex; gap: .75em; align-items: flex-start;
+  input { flex: none; width: 1.4em; height: 1.4em; margin: .1em 0 0; accent-color: $accent; }
+  label { font-size: .95rem; color: $discret; } }
+
+// Choix de la vue du programme : par spectacle / par soirée
+.vues { @include flex(row, .25em); margin-block: 1rem;
+  a { flex: 1; display: grid; place-items: center; @include cible-tactile; text-decoration: none; font-weight: bold;
+    color: $discret; background: $carte; border: 1px solid $bordure; border-radius: $rayon;
+    &[aria-current="page"] { color: #111; background: $accent; border-color: $accent; }
+    @media (hover: hover) { &:not([aria-current]):hover { color: #fff; background: $bordure; } }
+    @include from(tablette) { flex: 0 1 12em; } } }

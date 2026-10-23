@@ -1,6 +1,8 @@
 // NRV.net - page « Programme » (index.html)
 // Fonctionnalités 1 (liste), 3 (lien vers la soirée), 4 (filtre date), 5 (filtre style) + pagination
-import { api, template, idDepuisLien, afficherErreur, dateLisible, heureLisible, majMenu } from './api.js';
+import {
+  api, template, idDepuisLien, afficherErreur, dateLisible, heureLisible, majMenu, message, parametre,
+} from './api.js';
 
 const liste = document.getElementById('liste-spectacles');
 const pagination = document.getElementById('pagination');
@@ -77,6 +79,11 @@ formulaire.addEventListener('submit', (evt) => {
 });
 
 majMenu();
+if (parametre('deconnecte')) {
+  message(document.getElementById('message-deconnexion'), 'Vous avez été déconnecté.');
+  // on retire ?deconnecte=1 de l'adresse pour que le message ne revienne pas au rechargement
+  window.history.replaceState(null, '', window.location.pathname);
+}
 const filtres = lireFiltres();
 champDate.value = filtres.date;
 chargerStyles(filtres.style);

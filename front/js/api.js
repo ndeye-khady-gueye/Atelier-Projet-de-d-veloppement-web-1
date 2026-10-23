@@ -117,7 +117,7 @@ export function majMenu() {
   lien.addEventListener('click', (evt) => {
     evt.preventDefault();
     fermerSession();
-    window.location.href = 'index.html';
+    window.location.href = 'index.html?deconnecte=1';
   });
   if (s.role === 'admin' && !document.querySelector('.menu a[href="backoffice.html"]')) {
     const li = document.createElement('li');
@@ -125,6 +125,24 @@ export function majMenu() {
     if (window.location.pathname.endsWith('backoffice.html')) li.firstChild.setAttribute('aria-current', 'page');
     lien.parentElement.before(li);
   }
+}
+
+/**
+ * Case « justificatif » du tarif réduit (soirée et pass) : visible et obligatoire
+ * seulement quand « Réduit » est choisi. Simple déclaration : elle n'est pas envoyée à l'API.
+ */
+export function brancherJustificatif(selectTarif) {
+  const bloc = document.getElementById('bloc-justificatif');
+  const caseJustificatif = document.getElementById('justificatif-reduit');
+  if (!selectTarif || !bloc) return;
+  const maj = () => {
+    const reduit = selectTarif.value === 'reduit' && !selectTarif.disabled;
+    bloc.hidden = !reduit;
+    caseJustificatif.required = reduit;   // un required caché bloquerait l'envoi sans message
+    if (!reduit) caseJustificatif.checked = false;
+  };
+  selectTarif.addEventListener('change', maj);
+  maj();
 }
 
 // ---- formatage (français) ----

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soirées – NRV.net</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="index.html">NRV<span>.net</span></a>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="index.html" aria-current="page">Programme</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="connexion.html">Connexion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="conteneur">
+  <h1>Programme du festival</h1>
+  <nav class="vues" aria-label="Mode d'affichage">
+    <a href="index.html">Par spectacle</a>
+    <a href="soirees.html" aria-current="page">Par soirée</a>
+  </nav>
+
+  <!-- rempli par js/soirees.js (fetch /soirees + template tpl-soirees) -->
+  <section id="liste-soirees" class="liste-spectacles" aria-label="Liste des soirées" aria-live="polite">
+    <p class="message">Chargement des soirées…</p>
+  </section>
+</main>
+<footer class="pied"><p>Nancy Rock Vibration · NRV.net</p></footer>
+
+<!-- Template Handlebars : une carte par soirée (mêmes classes que les cartes de spectacles) -->
+<script id="tpl-soirees" type="text/x-handlebars-template">
+  {{#each soirees}}
+  <article class="carte-spectacle">
+    <a class="carte-spectacle__lien" href="soiree.html?id={{id}}">
+      <div class="carte-spectacle__corps">
+        <h2 class="carte-spectacle__titre">{{nom}}</h2>
+        <p class="carte-spectacle__date"><time datetime="{{date}}T{{horaire}}">{{dateTexte}} · {{heureTexte}}</time></p>
+        <p>{{lieu}}</p>
+        {{#if complet}}<p class="etiquette">Complet</p>{{else}}<p>Places restantes : <strong>{{places_restantes}}</strong></p>{{/if}}
+      </div>
+    </a>
+  </article>
+  {{else}}
+  <p class="message">Aucune soirée programmée.</p>
+  {{/each}}
+</script>
+
+<script src="js/vendor/handlebars.min.js"></script>
+<script type="module" src="js/soirees.js"></script>
+</body>
+</html>
