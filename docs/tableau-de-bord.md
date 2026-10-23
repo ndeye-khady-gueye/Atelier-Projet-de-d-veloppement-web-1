@@ -12,7 +12,7 @@ SAÉ « Atelier-Projet de développement web 1 » · BUT 3 Informatique DWM · I
 | API | http://docketu.iutnc.univ-lorraine.fr:45000 |
 | Adminer | http://docketu.iutnc.univ-lorraine.fr:45001 |
 | Dépôt git (public) | https://github.com/ndeye-khady-gueye/Atelier-Projet-de-d-veloppement-web-1 |
-| Trello | https://trello.com/invite/b/6adb5e6535554110b4c8b4b4/ATTIa95237623d4083659f95c2ea777abb3aA96FA4D1/projet-nrvnet |
+| Trello | https://trello.com/b/vGnLs8ry/projet-nrvnet |
 
 docketu n'est accessible que depuis le réseau de l'IUT.
 
