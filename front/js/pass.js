@@ -1,5 +1,7 @@
 // NRV.net - page « Pass 3 jours » : 3 soirées différentes, remise de 3 %
-import { api, template, message, majMenu, exigerConnexion, allerConnexion, dateLisible } from './api.js';
+import {
+  api, template, message, majMenu, exigerConnexion, allerConnexion, dateLisible, brancherJustificatif,
+} from './api.js';
 
 const formulaire = document.getElementById('form-pass');
 const erreur = document.getElementById('erreur-pass');
@@ -38,5 +40,6 @@ formulaire.addEventListener('submit', async (evt) => {
   }
 });
 
+brancherJustificatif(document.getElementById('pass-categorie'));
 majMenu();
 if (exigerConnexion()) chargerSoirees();

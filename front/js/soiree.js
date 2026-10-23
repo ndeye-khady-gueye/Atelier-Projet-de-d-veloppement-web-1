@@ -2,7 +2,7 @@
 // Fonctionnalité 2 : détail d'une soirée ; fonctionnalité 6 : ajout de billets au panier
 import {
   api, template, afficherErreur, message, majMenu, session, allerConnexion, parametre,
-  dateLisible, heureLisible, prixLisible,
+  dateLisible, heureLisible, prixLisible, brancherJustificatif,
 } from './api.js';
 
 const conteneur = document.getElementById('soiree');
@@ -41,6 +41,7 @@ function brancherFormulaire() {
   const formulaire = document.getElementById('form-panier');
   const erreur = document.getElementById('erreur-ajout');
   const statut = document.getElementById('message-ajout');
+  brancherJustificatif(document.getElementById('tarif'));
   formulaire.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     message(erreur, '');

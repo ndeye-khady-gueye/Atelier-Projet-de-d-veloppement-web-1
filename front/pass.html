@@ -40,6 +40,10 @@
       <label for="pass-categorie">Tarif</label>
       <select id="pass-categorie" name="categorie"><option value="normal">Normal – 87,30 €</option><option value="reduit">Réduit – 58,20 €</option></select>
     </div>
+    <div class="case" id="bloc-justificatif" hidden>
+      <input type="checkbox" id="justificatif-reduit" name="justificatif_reduit">
+      <label for="justificatif-reduit">Je certifie avoir droit au tarif réduit (carte étudiante ou justificatif) et pouvoir le présenter à l'entrée.</label>
+    </div>
     <p class="message message--erreur" id="erreur-pass" role="alert" hidden></p>
     <button class="bouton" type="submit">Ajouter le pass au panier</button>
   </form>
