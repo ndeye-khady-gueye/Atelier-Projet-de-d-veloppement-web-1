@@ -13,3 +13,6 @@ h2 { font-size: 1.35rem; }
 h3 { font-size: 1.15rem; margin: 0 0 .25em; }
 a { color: inherit; &:focus-visible { outline: .15em solid $accent; outline-offset: .15em; } }
 .conteneur { width: 92%; max-width: $largeur-max; margin-inline: auto; }
+
+// L'attribut hidden masque toujours l'élément, même si une classe lui donne un display (ex. .champ)
+[hidden] { display: none !important; }

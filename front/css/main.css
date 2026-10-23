@@ -54,6 +54,10 @@ a:focus-visible {
   margin-inline: auto;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .entete {
   background: linear-gradient(100deg, #0b0908 0%, #2a0f2e 45%, #5c1a3a 75%, #8a2a1f 100%);
   box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.5);
@@ -378,6 +382,60 @@ main {
   color: #ff5a1f;
   text-transform: uppercase;
   margin: 0;
+}
+
+.case {
+  display: flex;
+  gap: 0.75em;
+  align-items: flex-start;
+}
+.case input {
+  flex: none;
+  width: 1.4em;
+  height: 1.4em;
+  margin: 0.1em 0 0;
+  accent-color: #ff5a1f;
+}
+.case label {
+  font-size: 0.95rem;
+  color: #b8aea2;
+}
+
+.vues {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
+  align-items: stretch;
+  margin-block: 1rem;
+}
+.vues a {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 2.75em;
+  padding: 0.5em 1.25em;
+  text-decoration: none;
+  font-weight: bold;
+  color: #b8aea2;
+  background: #211d1a;
+  border: 1px solid #3a332d;
+  border-radius: 0.5rem;
+}
+.vues a[aria-current=page] {
+  color: #111;
+  background: #ff5a1f;
+  border-color: #ff5a1f;
+}
+@media (hover: hover) {
+  .vues a:not([aria-current]):hover {
+    color: #fff;
+    background: #3a332d;
+  }
+}
+@media screen and (min-width: 40em) {
+  .vues a {
+    flex: 0 1 12em;
+  }
 }
 
 .formulaire {
