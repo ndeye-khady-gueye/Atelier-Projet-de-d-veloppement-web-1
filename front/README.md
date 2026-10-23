@@ -11,7 +11,7 @@ Répartition du travail sur le front :
 
 ```
 front/
-├── *.html            9 pages (voir le tableau ci-dessous)
+├── *.html            10 pages (voir le tableau ci-dessous)
 ├── scss/             sources Sass (main.scss importe les autres fichiers)
 │   ├── _variables    palette, espacements, points de rupture
 │   ├── _mixins       from() [media query], flex(), grille(), cible-tactile()
@@ -42,9 +42,10 @@ Après une modification de `scss/`, il faut **recompiler et versionner `css/main
 
 | Page | Contenu | Fonctionnalités du sujet | Appels à l'API |
 |---|---|---|---|
-| `index.html` | Programme : liste des spectacles, filtres date et style, pagination | 1, 4, 5, étendue 1 | `GET /spectacles`, `GET /styles` |
-| `soiree.html` | Détail d'une soirée (tarifs, lieu, spectacles) et ajout au panier | 2, 3, 6, étendue 4 | `GET /soirees/{id}`, `POST /panier/lignes` |
-| `connexion.html` | Connexion et inscription (onglets) | accès à l'achat | `POST /auth/signin`, `POST /auth/register` |
+| `index.html` | Programme par spectacle : liste, filtres date et style, pagination | 1, 3, 4, 5, étendue 1 | `GET /spectacles`, `GET /styles` |
+| `soirees.html` | Programme par soirée : date, lieu et places restantes (vue alternative à `index.html`) | 2, 3 | `GET /soirees` |
+| `soiree.html` | Détail d'une soirée (tarifs, lieu, spectacles) et ajout au panier | 2, 6, étendue 4 | `GET /soirees/{id}`, `POST /panier/lignes` |
+| `connexion.html` | Connexion et inscription (onglets, confirmation du mot de passe) | accès à l'achat | `POST /auth/signin`, `POST /auth/register` |
 | `panier.html` | Lignes du panier, quantités, total, validation | 7, 8, étendue 2 | `GET /panier`, `PATCH` et `DELETE /panier/lignes/{id}`, `POST /panier/valider` |
 | `pass.html` | Pass 3 jours : choix de 3 soirées | tarifs pass | `GET /soirees`, `POST /panier/pass` |
 | `paiement.html` | Paiement simulé (carte) | 9 | `GET /commandes/{id}`, `POST /commandes/{id}/paiement` |
@@ -52,7 +53,7 @@ Après une modification de `scss/`, il faut **recompiler et versionner `css/main
 | `billet.html` | Billet imprimable (`billet.html?token=…`) | 10 | `GET /billets/{token}` |
 | `backoffice.html` | Jauge des soirées et recette (gestionnaire) | 11 | `GET /admin/soirees` |
 
-Les pages `confirmation.html` et `pass.html` ne figurent pas dans les maquettes : elles découlent du déroulement de l'API (confirmation après le paiement, choix de 3 soirées pour le pass).
+Les pages `confirmation.html`, `pass.html` et `soirees.html` ne figurent pas dans les maquettes : elles découlent du déroulement de l'API (confirmation après le paiement, choix de 3 soirées pour le pass) et des tests (vue du programme par soirée).
 
 ## Choix de conception
 
@@ -100,12 +101,16 @@ Les classes de style et les textes peuvent être modifiés librement. Chaque con
 ## Maquettes et validation
 
 * **Maquettes** (mobile, tablette, ordinateur) : `docs/wireframes/`.
-* **Validation W3C** : les 9 pages passent le validateur sans erreur (captures dans `docs/validations_w3c/`). `soiree.html` et `billet.html` affichent un seul avertissement, « Article lacks heading » : le titre est inséré par le template Handlebars, donc absent du fichier source.
+* **Validation W3C** : les 10 pages passent le validateur sans erreur (captures dans `docs/validations_w3c/`). `soiree.html` et `billet.html` affichent un seul avertissement, « Article lacks heading » : le titre est inséré par le template Handlebars, donc absent du fichier source.
+
+## Fonctions de confort ajoutées après les tests
+
+* Message « Vous avez été déconnecté » à la déconnexion.
+* Confirmation du mot de passe à l'inscription (vérifiée avant l'envoi à l'API).
+* Case de justificatif pour le tarif réduit, visible et obligatoire seulement quand « Réduit » est choisi (déclaration non vérifiée par l'API).
+* Sélecteur de vue « Par spectacle / Par soirée » sur le programme, car l'achat se fait par soirée.
 
 ## Pistes d'amélioration (non réalisées)
 
-* Vue des soirées sur la page d'accueil (la liste actuelle montre les spectacles, mais l'achat se fait par soirée).
-* Confirmation du mot de passe à l'inscription.
-* Case à cocher justifiant le tarif réduit.
-* Message de confirmation à la déconnexion.
 * Boutons − / + pour la quantité, à la place du champ numérique.
+* Ajout de spectacles et de soirées depuis le back-office (fonctionnalité étendue 3).
