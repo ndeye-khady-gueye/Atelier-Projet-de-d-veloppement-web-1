@@ -58,11 +58,13 @@ $soirees = [
 ];
 $sql .= "-- 3. Soirées\nINSERT INTO soiree (nom, thematique, date_debut, lieu_id, places_vendues) VALUES\n";
 $rows = [];
+$placesVendues = [];   // id soirée => places vendues (servent aux ventes de la partie 9)
 foreach ($soirees as $i => [$date, $nom, $theme, $style, $lieu, $nb]) {
     $capacite = $lieux[$lieu][2];
     // la soirée de clôture est complète (pour tester l'affichage « complet ») ; les autres entre 10 % et 90 %
     $vendues = $i === 11 ? $capacite : (int) round($capacite * mt_rand(10, 90) / 100);
     $rows[] = "(" . q($nom) . ", " . q($theme) . ", " . q("$date 20:00:00") . ", $lieu, $vendues)";
+    $placesVendues[$i + 1] = $vendues;
 }
 $sql .= implode(",\n", $rows) . ";\n\n";
 
@@ -98,8 +100,15 @@ $villes = ['Nancy', 'Metz', 'Strasbourg', 'Lyon', 'Lille', 'Rennes', 'Bordeaux',
     'Bruxelles', 'Genève', 'Montréal', 'Londres', 'Chicago', 'Memphis', 'Stockholm', 'Berlin'];
 $description = fn (string $titre, int $style) => $titre . ', groupe originaire de ' . $villes[mt_rand(0, count($villes) - 1)] . ', '
     . $presentations[$style][mt_rand(0, 1)] . '. ' . $concerts[mt_rand(0, count($concerts) - 1)];
-// URL de vidéos à compléter avec de vraies vidéos (sinon NULL) ; elles sont réparties en boucle
-$videos = [];
+// Une vidéo d'exemple par style (vrais clips officiels sur YouTube : les groupes du festival sont fictifs)
+$videos = [
+    1 => 'https://www.youtube.com/watch?v=a_426RiwST8',   // blues rock : The Black Keys - Lonely Boy
+    2 => 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',   // classic rock : Queen - Bohemian Rhapsody
+    3 => 'https://www.youtube.com/watch?v=CD-E-LDc384',   // métal : Metallica - Enter Sandman
+    4 => 'https://www.youtube.com/watch?v=VHoT4N43jK8',   // chanson : Stromae - Alors on danse
+    5 => 'https://www.youtube.com/watch?v=v2AC41dglnM',   // hard rock : AC/DC - Thunderstruck
+    6 => 'https://www.youtube.com/watch?v=NUTGr5t3MoY',   // punk : Green Day - Basket Case
+];
 
 $spectacles = [];   // [titre, description, video, horaire, style, soiree]
 foreach ($soirees as $s => [$date, , , $styleSoiree, , $nb]) {
@@ -108,7 +117,7 @@ foreach ($soirees as $s => [$date, , , $styleSoiree, , $nb]) {
         $style = $s === 11 ? mt_rand(1, 6) : ($k === 2 ? $stylesProches[$styleSoiree] : $styleSoiree);
         $titre = array_shift($groupes[$style]) ?? $faker->unique()->lastName() . ' Band';
         $desc = $description($titre, $style);
-        $video = $videos === [] ? null : $videos[count($spectacles) % count($videos)];
+        $video = $videos[$style];
         $spectacles[] = [$titre, $desc, $video, "$date {$horaires[$k]}", $style, $s + 1];
     }
 }
@@ -153,10 +162,53 @@ $sql .= "-- 8. Utilisateurs (mot de passe de test : nrv2024)\n";
 $sql .= "INSERT INTO utilisateur (nom, email, password_hash, role) VALUES\n";
 $sql .= implode(",\n", array_map(fn ($u) => "(" . q($u[0]) . ", " . q($u[1]) . ", " . q($hash) . ", " . q($u[2]) . ")", $utilisateurs)) . ";\n";
 
+// 9. VENTES DÉJÀ RÉALISÉES : les places vendues de chaque soirée correspondent à de vraies commandes
+// payées et à de vrais billets, pour que la recette du back-office soit cohérente avec la jauge.
+// Les acheteurs sont des clients fictifs qui ne peuvent pas se connecter (mot de passe invalide '!').
+$prix = ['normal' => 30.00, 'reduit' => 20.00];   // = back/config/settings.php
+$acheteurs = [];
+for ($k = 0; $k < 40; $k++) {
+    $acheteurs[] = "(" . q($faker->name()) . ", " . q($faker->unique()->safeEmail()) . ", '!', 'client')";
+}
+$premierAcheteur = count($utilisateurs) + 1;
+$sql .= "\n-- 9. Ventes déjà réalisées (acheteurs fictifs, sans mot de passe utilisable)\n";
+$sql .= "INSERT INTO utilisateur (nom, email, password_hash, role) VALUES\n" . implode(",\n", $acheteurs) . ";\n\n";
+$nbCommandes = 0;
+$nbBillets = 0;
+foreach ($placesVendues as $soiree => $restant) {
+    while ($restant > 0) {
+        // grosses commandes (groupes, CE, revendeurs) pour garder un fichier court
+        $quantite = min($restant, mt_rand(150, 450));
+        $reduits = (int) round($quantite * mt_rand(15, 35) / 100);
+        $normaux = $quantite - $reduits;
+        $montant = $normaux * $prix['normal'] + $reduits * $prix['reduit'];
+        $acheteur = $premierAcheteur + mt_rand(0, count($acheteurs) - 1);
+        $date = sprintf('2026-%02d-%02d %02d:%02d:00', mt_rand(9, 10), mt_rand(1, 20), mt_rand(8, 22), mt_rand(0, 59));
+        $nbCommandes++;
+        $sql .= "INSERT INTO commande (utilisateur_id, date_commande, montant_total, statut) VALUES ($acheteur, '$date', "
+            . number_format($montant, 2, '.', '') . ", 'payee');\n";
+        foreach (['normal' => $normaux, 'reduit' => $reduits] as $categorie => $n) {
+            if ($n === 0) {
+                continue;
+            }
+            $p = number_format($prix[$categorie], 2, '.', '');
+            $sql .= "INSERT INTO ligne_commande (commande_id, soiree_id, categorie, quantite, prix_unitaire) "
+                . "VALUES (currval('commande_id_seq'), $soiree, '$categorie', $n, $p);\n";
+            // un billet par place : référence unique, jeton aléatoire de 64 caractères hexadécimaux
+            $sql .= "INSERT INTO billet (commande_id, soiree_id, reference, categorie, prix, token) "
+                . "SELECT currval('commande_id_seq'), $soiree, 'NRV-V" . sprintf('%04d', $nbCommandes) . "' || substr('$categorie', 1, 1) || lpad(g::text, 4, '0'), "
+                . "'$categorie', $p, md5(random()::text) || md5(random()::text) FROM generate_series(1, $n) g;\n";
+            $nbBillets += $n;
+        }
+        $restant -= $quantite;
+    }
+}
+
 $fichier = __DIR__ . '/data.sql';
 if (file_put_contents($fichier, $sql) === false) {
     fwrite(STDERR, "Erreur : impossible d'écrire $fichier\n");
     exit(1);
 }
 echo 'sql/data.sql généré : ' . count($soirees) . ' soirées, ' . count($spectacles) . ' spectacles, '
-    . count($artistes) . ' artistes, ' . count($images) . ' images, ' . count($utilisateurs) . " utilisateurs\n";
+    . count($artistes) . ' artistes, ' . count($images) . ' images, ' . count($utilisateurs) . " utilisateurs de test, "
+    . "$nbCommandes commandes payées, $nbBillets billets\n";
